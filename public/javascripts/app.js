@@ -1,2 +1,2 @@
 var mainapp = angular.module('MyMainApp',  ['ngRoute','ngMaterial','ngAnimate']);
-var app = angular.module('myApp',  ["ngRoute","chart.js"]);
+var app = angular.module('myApp',  ["ngRoute"]);
