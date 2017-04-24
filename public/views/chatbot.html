@@ -1,0 +1,30 @@
+<div ng-app="myApp" ng-controller="myctr" ng-init="myFunction()"> 
+		<div class="container">	
+			<div class = "row">
+					 <div class ="col-sm-6 col-sm-offset-3" style ="overflow-x: hidden;  overflow-y: auto; height:25.625rem;  max-height:  25.625rem;" scroll-glue>
+					  <div  ng-repeat ="x in myData">					
+						 <div>
+							<p style = "align:right;color:green"><i class="fa fa-reply" aria-hidden="true" ng-if ="x.text[0]"></i>	{{x.text[0]}} </p>
+						  </div>
+						 <div>
+							<p>
+								<span class="glyphicon glyphicon-user" ng-if ="x.question"> </span>{{x.question}}
+							</p> 
+						 </div>
+					  </div>
+					</div>	
+			</div>
+			<div>
+			    <div class ="col-sm-6 col-sm-offset-3">
+				 <center>
+					 <form method = "post">
+						<div class="form-group ">
+							<input type = "text" class="form-control" placeholder="How can i help you?" ng-model="formdata.question" >
+						</div>				 						
+						<button class="btn btn-success btn-block btn-lg"  ng-click= "send()"><i class="fa fa-paper-plane" aria-hidden="true"></i> Ask </button>
+					  </form>
+				 </center>
+				</div>	
+			</div>
+		</div>		
+</div>

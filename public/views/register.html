@@ -1,0 +1,52 @@
+<div ng-app="MyMainApp" ng-controller = "register">
+	<div class="container">
+    	<div class="row main">		
+			<div class="panel panel-login">	
+				<div class="panel-heading">
+						<div class="row">
+							<div class="col-sm-6 col-sm-offset-3">
+								<h3><a href="" class="active">Register</a>	</h3>				
+							<hr>
+							<h3 style = "color:green;"> {{msg}} </h3>
+							</div>		
+						</div>
+				</div>	
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-lg-6 col-lg-offset-3">							
+								<form name = "myForm" ng-submit="register()">
+									<div class="form-group">
+										<div>
+											<input type = "text" name = "username" ng-model ="formdata.username" placeholder = "Username" class="form-control" pattern="[A-Z a-z0-9_]{4,}$" title="Invalid Username,Use latters, numbers, underscore and minimum 4 charecters " ng-keyup="checkuser()" required> 
+											<span class="glyphicon glyphicon-ok form-control-feedback" ng-if="myForm.username.$valid && !usermsg"></span>
+										</div>
+										<p class="alert alert-danger" ng-if="usermsg">
+											{{usermsg}}
+										</p>
+									</div>
+									<div class="form-group">
+										<input type="email" name="email" ng-model ="formdata.email" id="email" tabindex="1" class="form-control" placeholder="Email Address" value="" required>
+									</div>
+									<div class="form-group">
+										<input type="text" name="displayname" ng-model ="formdata.displayname" id="displayname" tabindex="1" class="form-control" placeholder="Display name" value="" required>
+									</div>
+									<div class="form-group">
+										<input type="password" name="password" ng-model ="formdata.password" id="password" tabindex="2" class="form-control" placeholder="Password" required  autofocus>										
+									</div>
+									<div class="form-group">
+										<input type="password" name="confirm-password" ng-model ="formdata.confirmpassword"id="confirm-password" tabindex="2" class="form-control" placeholder="Confirm Password" required>		
+										<p class="alert alert-danger" ng-if="formdata.password != formdata.confirmpassword ">
+											Passwords don't match.
+										</p>
+									</div>
+									<div class="form-group">										
+										<button type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-success">	Register Now</button>						
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</div>

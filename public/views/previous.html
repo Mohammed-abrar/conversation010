@@ -1,0 +1,13 @@
+<div ng-app="myApp" ng-controller="display">	
+	<div class="container">
+		<div class = "row">	
+			<div ng-repeat = "x in prevqsn" class = "col col-sm-offset-4 col-sm-4 panel">
+				<div ng-repeat = "y in x.questions">
+					 <div><b>user:</b>  {{y.question}}</div>
+				     <div><b>AmYcA:</b> {{y.answer[0]}}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>						
+	

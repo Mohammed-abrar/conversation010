@@ -1,0 +1,28 @@
+	<div class="container">
+    	<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<div class="panel panel-login">
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col-sm-6">
+							<h3>	<a href="" class="active">User Profile</a>	</h3>					
+							</div>
+							<br/>
+							<hr>
+						</div>
+					</div>
+				
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-sm-12">
+							<h3>Display Name: </h3> {{user.displayName}}
+							<h3>Username: </h3>	{{user.username}}
+							<h3> email: </h3>	
+								{{user.emails[0].value}}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>

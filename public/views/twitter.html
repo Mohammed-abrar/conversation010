@@ -1,0 +1,25 @@
+<div ng-app="myApp" ng-controller="twitterController">
+	 <h3> <center> Twitter </center> </h3>
+		<div class="container">	
+			<div class = "row">
+			    <div class ="col-sm-6">
+				 <center>
+					 <form method = "post">
+						<div class="form-group ">
+							<input type = "text" class="form-control" placeholder="Enter Input to get tweets?" ng-model="formdata.tweetInput" >
+						</div>				 
+						
+						<button class="btn btn-success btn-block btn-lg"  ng-click= "accessTweets()"><i class="fa fa-paper-plane" aria-hidden="true"></i> Get Tweets </button>
+					 </form>
+				 </center>
+				</div>	
+				<div class ="col-sm-6">				
+					<canvas id="bar" class="chart chart-bar"
+					  chart-data="graphdata" chart-labels="labels" chart-series="series">
+					</canvas>	
+				</div>
+				
+			</div>	
+		</div>
+</div>
+

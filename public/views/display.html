@@ -1,0 +1,89 @@
+<div ng-app="myApp" ng-controller="display">	
+	<div class = "container">
+		<div class = "row">
+			<div class = "col col-sm-6">
+				<div class="table-responsive">
+					<table class="table" border="2.0">
+					 <tr>
+						<th class = "col col-sm-3">
+							<h3>Most Accessed Intents</h3>
+						</th>
+						<th class = "col col-sm-3">
+							<h3>count</h3>
+						</th>
+					 </tr>
+						
+					 <tr ng-repeat = "x in mostaccessed">
+						<td class = "col-sm-3">
+							{{x._id[0]}}
+						</td>
+						<td class = "col col-sm-3">
+							{{x.count}}
+						</td>
+					 </tr>
+					</table>
+				</div>
+			</div>
+			<div class = "col col-sm-6">
+				<canvas id="pie" class="chart chart-pie"
+					  chart-data="data" chart-labels="labels" chart-options="options" style = "length : 20px;width:20px">
+				</canvas>
+			</div>
+		</div>
+	</div>
+	<br/>
+	<br/>
+	<hr>
+	<h3>Conversation</h3>
+	<hr>
+	<div class = "container">
+		<div class="table-responsive">
+			<table class="table" border="2.0">
+				<tr>								
+					<th class = "col col-sm-3">
+						<h3>Questions</h3>
+					</th>
+					<th class = "col col-sm-3">
+						<h3>Response</h3>
+					</th>
+					<th class = "col col-sm-3">				
+						<h3>Intents	</h3>		
+					</th>
+					<th class = "col col-sm-3">
+						<h3>entities</h3>
+					</th>
+					<th>
+						<h3>Date</h3>
+					</th>
+				</tr>				
+				<tr ng-repeat = "x in myData">				
+					<td class = "col col-sm-3">
+						{{x.question}}
+					</td>
+					<td class = "col col-sm-3">
+							{{x.answer}}
+					</td>
+					<td class = "col col-sm-3">
+						<span ng-hide="x.IntentEditing" ng-dblclick="editIntent(x)">
+							<div ng-if = "x.intents[0].intent">{{x.intents[0].intent}}</div>
+							<div ng-if = "!x.intents[0].intent">No intents </div>
+						</span>
+						<input ng-show="x.IntentEditing" ng-model="x.intents[0].intent" ng-blur="doneintentEditing(x)" autofocus />
+				
+					</td>
+					<td class = "col col-sm-3">						
+						<span ng-hide="x.editing" ng-dblclick="editItem(x)">
+							<div ng-if = "x.entities[0].entity">{{x.entities[0].entity}}</div>
+							<div ng-if = "!x.entities[0].entity">No entity </div>
+						</span>
+						<input ng-show="x.editing" ng-model="x.entities[0].entity" ng-blur="doneEditing(x)" autofocus />
+					</td>
+					<td>
+						{{x.created_at}}
+					</td>
+					
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
