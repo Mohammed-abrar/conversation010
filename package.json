@@ -1,11 +1,12 @@
 {
-  "name": "myconapp",
+  "name": "conversation010",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "twitter" : "~1.7.0",
     "angular-chart.js": "^1.1.1",
     "body-parser": "~1.16.0",
     "connect-ensure-login": "^0.1.1",
