@@ -3,12 +3,14 @@
 			<div class = "row">
 					 <div class ="col-sm-6 col-sm-offset-3" style ="overflow-x: hidden;  overflow-y: auto; height:25.625rem;  max-height:  25.625rem;" scroll-glue>
 					  <div  ng-repeat ="x in myData">					
-						 <div>
+						 <div class = "bubble">
 							<p style = "align:right;color:green"><i class="fa fa-reply" aria-hidden="true" ng-if ="x.text[0]"></i>	{{x.text[0]}} </p>
 						  </div>
 						 <div>
 							<p>
-								<span class="glyphicon glyphicon-user" ng-if ="x.question"> </span>{{x.question}}
+								 <div class = "bubble">
+									<span class="glyphicon glyphicon-user" ng-if ="x.question"> </span>{{x.question}}
+								 </div>
 							</p> 
 						 </div>
 					  </div>
