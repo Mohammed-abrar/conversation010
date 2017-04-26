@@ -1,12 +1,11 @@
 {
-  "name": "conversation010",
+  "name": "myconapp",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "twitter" : "~1.7.0",
     "angular-chart.js": "^1.1.1",
     "body-parser": "~1.16.0",
     "connect-ensure-login": "^0.1.1",
@@ -22,6 +21,7 @@
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "serve-favicon": "~2.3.2",
+    "twitter": "^1.7.0",
     "watson-developer-cloud": "^2.25.1"
   }
 }

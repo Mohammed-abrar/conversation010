@@ -6,14 +6,14 @@ var conversation = watson.conversation({
   version_date: '2016-09-20'
 });
 
-var workspaceId = "5bcffca5-b3de-468e-bfcf-ade43d398f78";
+var workspaceId = "d3fd12ea-e21a-42d4-974b-741e77821a98";
 var context = {};
 var questions = [];
 
 module.exports = function(router,db){
-	router.post("/askfirst",require('connect-ensure-login').ensureLoggedIn(),
+	router.post("/askfirst",
 	function(req, res, next) {	
-		context = {"username":req.user.username};
+		context = {"username": 'Abrar'};
 		conversation.message({
 		  workspace_id: workspaceId,
 		  input:{'text' : " "},
@@ -30,7 +30,7 @@ module.exports = function(router,db){
 		  }
 		});
 });
-router.post("/askwatson",require('connect-ensure-login').ensureLoggedIn(),
+router.post("/askwatson",
 	function(req, res, next) {	
 		conversation.message({
 		  workspace_id: workspaceId,

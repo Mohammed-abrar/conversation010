@@ -21,7 +21,11 @@ router.post('/checkuser', function(req, res, next) {
 	});
 });
 
-
+router.post('/register',
+  function(req, res){
+	
+	db.collection('users').insert({username: 'jack', password: 'secret', displayName: 'Jack', emails: [ { value: 'jack@example.com' } ] });
+  });
 router.get('/login',function(req, res) {
     res.redirect('/#/login');
   });
@@ -52,7 +56,6 @@ router.get('/profile',
   });
   
 router.get('/index',
-  require('connect-ensure-login').ensureLoggedIn(),
   function(req, res){
    res.render('index');
   });
