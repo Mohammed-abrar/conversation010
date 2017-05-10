@@ -27,7 +27,7 @@ router.get('/initialize',
  
 
 function getNextSequence(name) {
-  db.collection('counters').updateOne(
+  db.collection('counters').findOneAndUpdate(
   { _id : name },
     { 
 	  $set: { $inc :{ seq: 1 } }
