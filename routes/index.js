@@ -32,9 +32,9 @@ function getNextSequence(name) {
            { $inc: { seq: 1 } }
    );
 	
-  db.collection('counters').find().then(function(response){
-	    return response.seq;
-  });
+console.log(ret);
+ return ret.seq;
+
  
 }
 
