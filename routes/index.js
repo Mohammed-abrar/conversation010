@@ -16,7 +16,7 @@ router.get('/',
 router.get('/initialize',
   function(req, res) {
    	 db.collection('counters').insert({
-	      _id:ObjectID("userid") ,
+	      userid : "userid",
 	      seq: 0
 	   }).then(function(response){
 	 	res.send(response);
@@ -25,7 +25,7 @@ router.get('/initialize',
  
 function getNextSequence(name) {
    var ret = db.collection(counters).findOneAndUpdate(
-           { _id: ObjectID(name) },
+           { userid : name },
            { $inc: { seq: 1 } }
    );
 
@@ -35,7 +35,7 @@ function getNextSequence(name) {
 router.get('/autosave',
   function(req, res) {
    	db.collection('datatable').insert({
-	_id: getNextSequence("userid"),
+	_id: ObjectID(getNextSequence("userid")),
 	name : "xyz"
 	}).then(function(response){
 		res.send("done");
@@ -43,7 +43,7 @@ router.get('/autosave',
   });
 router.get('/disp',
   function(req, res) {
-   	db.collection('student').find().then(function(response){
+   	db.collection('datatable').find().then(function(response){
 		res.send(response);
 	});
   });
