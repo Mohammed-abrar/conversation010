@@ -25,13 +25,17 @@ router.get('/initialize',
 	 });
   });
  
+
 function getNextSequence(name) {
    var ret = db.collection('counters').findOneAndUpdate(
            { _id : name },
            { $inc: { seq: 1 } }
    );
-
-   return ret.seq;
+	
+  db.collection('counters').find().then(function(response){
+	    return response.seq;
+  });
+ 
 }
 
 router.get('/autosave',
