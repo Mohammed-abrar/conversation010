@@ -15,8 +15,9 @@ router.get('/',
 
 router.get('/initialize',
   function(req, res) {
+	db.collection('counters').drop();
    	 db.collection('counters').insert({
-	      userid : "userid",
+	      _id : "FieldShoudBeHexDecimalString",
 	      seq: 0
 	   }).then(function(response){
 	 	res.send(response);
@@ -35,7 +36,7 @@ function getNextSequence(name) {
 router.get('/autosave',
   function(req, res) {
    	db.collection('datatable').insert({
-	_id: ObjectID(getNextSequence("userid")),
+	candidate_id : getNextSequence("FieldShoudBeHexDecimalString"),
 	name : "xyz"
 	}).then(function(response){
 		res.send("done");
