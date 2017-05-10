@@ -41,15 +41,12 @@ function getNextSequence(name) {
 
 router.get('/autosave',
   function(req, res) {
-	var seq = getNextSequence("5901e810cbe8f800530f03df");
-	if(seq){
-   	db.collection('datatable').insert({
-	candidate_id : seq,
-	name : "xyz"
-	}).then(function(response){
-		res.send("done");
-	});
-	}
+	 res.send(db.collection('counters').findOneAndUpdate(
+	  { _id : name },
+	  { 
+	     $set: { $inc :{ seq: 1 } }
+	  }
+	));
   });
 router.get('/disp',
   function(req, res) {
