@@ -40,8 +40,9 @@ console.log(ret);
 
 router.get('/autosave',
   function(req, res) {
+	var seq = getNextSequence("5901e810cbe8f800530f03df");
    	db.collection('datatable').insert({
-	candidate_id : getNextSequence("5901e810cbe8f800530f03df"),
+	candidate_id : seq,
 	name : "xyz"
 	}).then(function(response){
 		res.send("done");
