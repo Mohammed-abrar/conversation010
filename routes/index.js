@@ -50,7 +50,7 @@ router.get('/autosave',
   });
 router.get('/disp',
   function(req, res) {
-   	db.collection('datatable').find().then(function(response){
+   	db.collection('counter').find().then(function(response){
 		res.send(response);
 	});
   });
