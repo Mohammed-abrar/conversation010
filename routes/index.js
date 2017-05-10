@@ -11,8 +11,41 @@ router.get('/',
   function(req, res) {
     res.render('home');
   });
-  
-  
+
+router.get('/initialize',
+  function(req, res) {
+   	 db.collection('counters').insert({
+	      _id: "userid",
+	      seq: 0
+	   });
+  });
+ 
+function getNextSequence(name) {
+   var ret = db.collection(counters).findOneAndUpdate(
+          {
+           { _id: name },
+           { $inc: { seq: 1 } }
+          }
+   );
+
+   return ret.seq;
+}
+
+router.get('/insert',
+  function(req, res) {
+   	db.collection('student').insert({
+	_id: getNextSequence("userid"),
+	name : "xyz"
+	}).then(function(response){
+		res.send("done");
+	});
+  });
+router.get('/display',
+  function(req, res) {
+   	db.collection('student').find().then(function(response){
+		res.send(response);
+	});
+  });
 
 router.get('/rest',function(req,res){
 	http.get('http://01hw424836:8393/api/v10/analysis/text?collection=col_53367&text=bread&output=application/json',function(response){
