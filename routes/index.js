@@ -16,6 +16,7 @@ router.get('/',
 router.get('/initialize',
   function(req, res) {
 	db.collection('counters').drop();
+	db.collection('datatable').drop();
    	 db.collection('counters').insert({
 	      _id : '5901e810cbe8f800530f03df',
 	      seq: 0
@@ -26,7 +27,7 @@ router.get('/initialize',
  
 function getNextSequence(name) {
    var ret = db.collection('counters').findOneAndUpdate(
-           { userid : name },
+           { _id : name },
            { $inc: { seq: 1 } }
    );
 
