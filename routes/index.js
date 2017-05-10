@@ -27,26 +27,28 @@ router.get('/initialize',
  
 
 function getNextSequence(name) {
-   var ret = db.collection('counters').updateOne(
-           { _id : name },
-	   {$set: { $inc: { seq: 1 } } }
-   );
-	
-console.log(ret);
- return ret.seq;
-
- 
+  db.collection('counters').updateOne(
+  { _id : name },
+    { 
+	  $set: { $inc :{ seq: 1 } }
+    }
+)
+.then(function(result) {
+ 	console.log(result);
+	return(result);
+})
 }
 
 router.get('/autosave',
   function(req, res) {
 	var seq = getNextSequence("5901e810cbe8f800530f03df");
-   	db.collection('datatable').insert({
+	res.send(seq);
+   	/*db.collection('datatable').insert({
 	candidate_id : seq,
 	name : "xyz"
 	}).then(function(response){
 		res.send("done");
-	});
+	});*/
   });
 router.get('/disp',
   function(req, res) {
