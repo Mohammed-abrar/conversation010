@@ -15,14 +15,14 @@ router.get('/',
 router.get('/initialize',
   function(req, res) {
    	 db.collection('counters').insert({
-	      _id: "userid",
+	      _id: 1,
 	      seq: 0
 	   });
   });
  
-function getNextSequence(name) {
+function getNextSequence(id) {
    var ret = db.collection(counters).findOneAndUpdate(
-           { _id: name },
+           { _id: id },
            { $inc: { seq: 1 } }
    );
 
@@ -32,7 +32,7 @@ function getNextSequence(name) {
 router.get('/autosave',
   function(req, res) {
    	db.collection('student').insert({
-	_id: getNextSequence("userid"),
+	_id: getNextSequence(1),
 	name : "xyz"
 	}).then(function(response){
 		res.send("done");
