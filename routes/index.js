@@ -42,13 +42,14 @@ function getNextSequence(name) {
 router.get('/autosave',
   function(req, res) {
 	var seq = getNextSequence("5901e810cbe8f800530f03df");
-	res.send(seq);
-   	/*db.collection('datatable').insert({
+	if(seq){
+   	db.collection('datatable').insert({
 	candidate_id : seq,
 	name : "xyz"
 	}).then(function(response){
 		res.send("done");
-	});*/
+	});
+	}
   });
 router.get('/disp',
   function(req, res) {
