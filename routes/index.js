@@ -31,7 +31,7 @@ function getNextSequence(name) {
    return ret.seq;
 }
 
-router.get('/insert',
+router.get('/autosave',
   function(req, res) {
    	db.collection('student').insert({
 	_id: getNextSequence("userid"),
@@ -40,7 +40,7 @@ router.get('/insert',
 		res.send("done");
 	});
   });
-router.get('/display',
+router.get('/disp',
   function(req, res) {
    	db.collection('student').find().then(function(response){
 		res.send(response);
