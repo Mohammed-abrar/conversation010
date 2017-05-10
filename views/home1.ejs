@@ -1,0 +1,134 @@
+<html>
+<head>
+	<title> My Application </title>
+</head>
+	
+	  <meta charset="utf-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		
+		<link rel="stylesheet" href="/font-awesome-4.7.0/css/font-awesome.min.css">  	  
+		<script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.js"> </script>
+	    <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.min.js"> </script>
+	  
+<style>
+body {margin:10;}
+
+.wrap_first{
+	background-color: #2fc2b8;
+	color: #fff;
+	height: 100%;
+	width: 100%;
+}
+
+.wrap_second{
+background-color:#426e86 ;
+	color:  #2fc2b8;
+	height: 100%;
+	width: 100%;
+}
+. wrap_third{
+}
+.topnav {
+  overflow: hidden;
+  background-color: #426e86;
+}
+
+.topnav a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+.topnav ul a {
+  float: right;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav .icon {
+  display: none;
+}
+
+@media screen and (max-width: 600px) {
+  .topnav a:not(:first-child) {display: none;}
+  .topnav a.icon {
+    float: right;
+    display: block;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .topnav.responsive {position: relative;}
+  .topnav.responsive .icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .topnav.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+
+}
+</style>
+</head>
+<body ng-app="MyMainApp">
+
+<div class="topnav" id="myTopnav">
+  <a href="#page-top">Application Name</a>
+  <ul>
+	  <a href="#about">About</a>
+	  <a href="#login"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+	  <a href="#register"><span class="glyphicon glyphicon-user"></span> Register</a>
+	  <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="myFunction()">&#9776;</a>
+  </ul>
+</div>
+<div class = "container wrap_first">
+	<div id= "page-top">
+	This is a text
+	</div>
+</div>
+<div class = "container wrap_second">
+	<div id= "page-top">
+	This is a text
+	</div>
+</div>
+<div class = "container wrap_second">
+	<div id= "page-bottom">
+	This is a text
+	</div>
+</div>
+<div ng-view></div>
+
+<script>
+function myFunction() {
+    var x = document.getElementById("myTopnav");
+    if (x.className === "topnav") {
+        x.className += " responsive";
+    } else {
+        x.className = "topnav";
+    }
+}
+</script>
+
+</body>
+<script src="/javascripts/app.js"></script>
+<script src="/javascripts/MainAppController.js"></script>
+</html>

@@ -4,31 +4,50 @@ var router = express.Router();
 var watson = require('watson-developer-cloud');
 var mongo = require('mongodb');
 var monk = require('monk');
-
-//var db = monk('localhost:27017/MyApplicationDatabase');
-var db = monk('mongodb://mohammed_abrar95:BPEJTwZgEYgKwixL@myapplicationdatabase-shard-00-00-gmb8r.mongodb.net:27017,myapplicationdatabase-shard-00-01-gmb8r.mongodb.net:27017,myapplicationdatabase-shard-00-02-gmb8r.mongodb.net:27017/MyDatabase?ssl=true&replicaSet=MyApplicationDatabase-shard-0&authSource=admin');
-
+var http = require('http');
+var db = monk('localhost:27017/MyApplicationDatabase');
+//var db = monk('mongodb://mohammed_abrar95:BPEJTwZgEYgKwixL@myapplicationdatabase-shard-00-00-gmb8r.mongodb.net:27017,myapplicationdatabase-shard-00-01-gmb8r.mongodb.net:27017,myapplicationdatabase-shard-00-02-gmb8r.mongodb.net:27017/MyDatabase?ssl=true&replicaSet=MyApplicationDatabase-shard-0&authSource=admin');
 router.get('/',
   function(req, res) {
     res.render('home');
   });
   
-router.get('/Graph',
-	function(req,res)
-	{
-		res.render('Graph.ejs');
-	});
+  
+
+router.get('/rest',function(req,res){
+	http.get('http://01hw424836:8393/api/v10/analysis/text?collection=col_53367&text=bread&output=application/json',function(response){
+	console.log('STATUS: ' + response.statusCode);
+    console.log('HEADERS: ' + JSON.stringify(response.headers));
+	response.setEncoding('utf8');
+	response.on('data', function (chunk) {
+    res.send('BODY: ' + chunk);
+  });
+});
+});
+
+router.get('/rest1',function(req,res1){
+	var options = {
+  hostname: '01hw424836',
+  port: 8393,
+  path: '/api/v10/analysis/text?collection=col_53367&text=bread&output=application/json',
+  method: 'POST',
+  headers: {
+      'Content-Type': 'application/json',
+  }
+};
+http.request(options, function(res) {
+  console.log('Status: ' + res.statusCode);
+  console.log('Headers: ' + JSON.stringify(res.headers));
+  res.setEncoding('utf8');
+  res.on('data', function (body) {
+    res1.send('Body: ' + body);
+  });
+});
+});
+
 	
-router.get('/getdata',function(req,res){
-	db.collection('student').find().then(function(response) {
-	  console.log(response);
-      res.send(response);     
-    });
-});
-router.get('/store',function(req,res){
-	db.collection('student').insert([{"_id":"58ff328496f9b3748f739083","Name":"john","Candidate_ID":"14001","JOB_ID":"1600","values":{"EXP_SCORE":15,"COMMUNICATION":10,"RESEARCH_WORK":10,"EDUCATION_SCORE":15,"SPECILIZATION_SCORE":20,"CERTIFICATINO_SCORE":4,"PUBLICATION_SCORE":4,"TEAM_WORK_SCORE":4,"CUSTOMER_FOCUS_SCORE":8,"FOREIGN_LANGUAGE_SCORE":10}},{"_id":"58ff330696f9b3748f739084","Name":"Peter","Candidate_ID":"14002","JOB_ID":"1600","values":{"EXP_SCORE":10,"COMMUNICATION":10,"RESEARCH_WORK":10,"EDUCATION_SCORE":15,"SPECILIZATION_SCORE":20,"CERTIFICATINO_SCORE":4,"PUBLICATION_SCORE":4,"TEAM_WORK_SCORE":4,"CUSTOMER_FOCUS_SCORE":8,"FOREIGN_LANGUAGE_SCORE":10}},{"_id":"58ff333f96f9b3748f739085","Name":"xyz","Candidate_ID":"14001","JOB_ID":"1600","values":{"EXP_SCORE":15,"COMMUNICATION":5,"RESEARCH_WORK":10,"EDUCATION_SCORE":15,"SPECILIZATION_SCORE":20,"CERTIFICATINO_SCORE":4,"PUBLICATION_SCORE":4,"TEAM_WORK_SCORE":4,"CUSTOMER_FOCUS_SCORE":8,"FOREIGN_LANGUAGE_SCORE":10}},{"_id":"58ff335496f9b3748f739086","Name":"abc","Candidate_ID":"14002","JOB_ID":"1600","values":{"EXP_SCORE":10,"COMMUNICATION":10,"RESEARCH_WORK":10,"EDUCATION_SCORE":15,"SPECILIZATION_SCORE":5,"CERTIFICATINO_SCORE":4,"PUBLICATION_SCORE":4,"TEAM_WORK_SCORE":4,"CUSTOMER_FOCUS_SCORE":8,"FOREIGN_LANGUAGE_SCORE":0}},{"_id":"58ff335996f9b3748f739087","Name":"abc","Candidate_ID":"14002","JOB_ID":"1600","values":{"EXP_SCORE":10,"COMMUNICATION":10,"RESEARCH_WORK":10,"EDUCATION_SCORE":15,"SPECILIZATION_SCORE":5,"CERTIFICATINO_SCORE":4,"PUBLICATION_SCORE":4,"TEAM_WORK_SCORE":4,"CUSTOMER_FOCUS_SCORE":8,"FOREIGN_LANGUAGE_SCORE":0}},{"_id":"58ff336b96f9b3748f739088","Name":"xyz","Candidate_ID":"14001","JOB_ID":"1600","values":{"EXP_SCORE":15,"COMMUNICATION":5,"RESEARCH_WORK":10,"EDUCATION_SCORE":15,"SPECILIZATION_SCORE":0,"CERTIFICATINO_SCORE":4,"PUBLICATION_SCORE":4,"TEAM_WORK_SCORE":4,"CUSTOMER_FOCUS_SCORE":8,"FOREIGN_LANGUAGE_SCORE":0}},{"_id":"58ff337b96f9b3748f739089","Name":"xyz","Candidate_ID":"14001","JOB_ID":"1600","values":{"EXP_SCORE":15,"COMMUNICATION":5,"RESEARCH_WORK":10,"EDUCATION_SCORE":15,"SPECILIZATION_SCORE":0,"CERTIFICATINO_SCORE":4,"PUBLICATION_SCORE":4,"TEAM_WORK_SCORE":4,"CUSTOMER_FOCUS_SCORE":8,"FOREIGN_LANGUAGE_SCORE":0}},{"_id":"58ff3aee96f9b3748f73908a","Name":"xyz","Candidate_ID":"14001","JOB_ID":"1600","values":{"EXP_SCORE":1,"COMMUNICATION":10,"RESEARCH_WORK":10,"EDUCATION_SCORE":1,"SPECILIZATION_SCORE":0,"CERTIFICATINO_SCORE":4,"PUBLICATION_SCORE":4,"TEAM_WORK_SCORE":4,"CUSTOMER_FOCUS_SCORE":8,"FOREIGN_LANGUAGE_SCORE":0}},{"_id":"58ff3af196f9b3748f73908b","Name":"xyz","Candidate_ID":"14001","JOB_ID":"1600","values":{"EXP_SCORE":1,"COMMUNICATION":10,"RESEARCH_WORK":10,"EDUCATION_SCORE":1,"SPECILIZATION_SCORE":0,"CERTIFICATINO_SCORE":4,"PUBLICATION_SCORE":4,"TEAM_WORK_SCORE":4,"CUSTOMER_FOCUS_SCORE":8,"FOREIGN_LANGUAGE_SCORE":0}},{"_id":"58ff3b0696f9b3748f73908c","Name":"xyz","Candidate_ID":"14001","JOB_ID":"1600","values":{"EXP_SCORE":1,"COMMUNICATION":10,"RESEARCH_WORK":12,"EDUCATION_SCORE":1,"SPECILIZATION_SCORE":0,"CERTIFICATINO_SCORE":4,"PUBLICATION_SCORE":4,"TEAM_WORK_SCORE":4,"CUSTOMER_FOCUS_SCORE":8,"FOREIGN_LANGUAGE_SCORE":0}},{"_id":"58ff3b0996f9b3748f73908d","Name":"xyz","Candidate_ID":"14001","JOB_ID":"1600","values":{"EXP_SCORE":1,"COMMUNICATION":10,"RESEARCH_WORK":12,"EDUCATION_SCORE":1,"SPECILIZATION_SCORE":0,"CERTIFICATINO_SCORE":4,"PUBLICATION_SCORE":4,"TEAM_WORK_SCORE":4,"CUSTOMER_FOCUS_SCORE":8,"FOREIGN_LANGUAGE_SCORE":0}},{"_id":"58ff475296f9b3748f73908e","Name":"abc","Candidate_ID":"14002","JOB_ID":"1600","values":{"EXP_SCORE":10,"COMMUNICATION":10,"RESEARCH_WORK":10,"EDUCATION_SCORE":15,"SPECILIZATION_SCORE":5,"CERTIFICATINO_SCORE":4,"PUBLICATION_SCORE":4,"TEAM_WORK_SCORE":4,"CUSTOMER_FOCUS_SCORE":8,"FOREIGN_LANGUAGE_SCORE":0}},{"_id":"58ff475496f9b3748f73908f","Name":"abc","Candidate_ID":"14002","JOB_ID":"1600","values":{"EXP_SCORE":10,"COMMUNICATION":10,"RESEARCH_WORK":10,"EDUCATION_SCORE":15,"SPECILIZATION_SCORE":5,"CERTIFICATINO_SCORE":4,"PUBLICATION_SCORE":4,"TEAM_WORK_SCORE":4,"CUSTOMER_FOCUS_SCORE":8,"FOREIGN_LANGUAGE_SCORE":0}},{"_id":"58ff475596f9b3748f739090","Name":"abc","Candidate_ID":"14002","JOB_ID":"1600","values":{"EXP_SCORE":10,"COMMUNICATION":10,"RESEARCH_WORK":10,"EDUCATION_SCORE":15,"SPECILIZATION_SCORE":5,"CERTIFICATINO_SCORE":4,"PUBLICATION_SCORE":4,"TEAM_WORK_SCORE":4,"CUSTOMER_FOCUS_SCORE":8,"FOREIGN_LANGUAGE_SCORE":0}},{"_id":"58ff475796f9b3748f739091","Name":"abc","Candidate_ID":"14002","JOB_ID":"1600","values":{"EXP_SCORE":10,"COMMUNICATION":10,"RESEARCH_WORK":10,"EDUCATION_SCORE":15,"SPECILIZATION_SCORE":5,"CERTIFICATINO_SCORE":4,"PUBLICATION_SCORE":4,"TEAM_WORK_SCORE":4,"CUSTOMER_FOCUS_SCORE":8,"FOREIGN_LANGUAGE_SCORE":0}},{"_id":"58ff475896f9b3748f739092","Name":"abc","Candidate_ID":"14002","JOB_ID":"1600","values":{"EXP_SCORE":10,"COMMUNICATION":10,"RESEARCH_WORK":10,"EDUCATION_SCORE":15,"SPECILIZATION_SCORE":5,"CERTIFICATINO_SCORE":4,"PUBLICATION_SCORE":4,"TEAM_WORK_SCORE":4,"CUSTOMER_FOCUS_SCORE":8,"FOREIGN_LANGUAGE_SCORE":0}},{"_id":"58ff479a96f9b3748f739093","Name":"xyz","Candidate_ID":"14001","JOB_ID":"1600","values":{"EXP_SCORE":15,"COMMUNICATION":10,"RESEARCH_WORK":10,"EDUCATION_SCORE":15,"SPECILIZATION_SCORE":20,"CERTIFICATINO_SCORE":4,"PUBLICATION_SCORE":4,"TEAM_WORK_SCORE":4,"CUSTOMER_FOCUS_SCORE":8,"FOREIGN_LANGUAGE_SCORE":10}},{"_id":"58ff479a96f9b3748f739094","Name":"sdfsd","Candidate_ID":"14002","JOB_ID":"1600","values":{"EXP_SCORE":10,"COMMUNICATION":10,"RESEARCH_WORK":10,"EDUCATION_SCORE":15,"SPECILIZATION_SCORE":20,"CERTIFICATINO_SCORE":4,"PUBLICATION_SCORE":4,"TEAM_WORK_SCORE":4,"CUSTOMER_FOCUS_SCORE":8,"FOREIGN_LANGUAGE_SCORE":10}},{"_id":"58ff479c96f9b3748f739095","Name":"xyz","Candidate_ID":"14001","JOB_ID":"1600","values":{"EXP_SCORE":15,"COMMUNICATION":10,"RESEARCH_WORK":10,"EDUCATION_SCORE":15,"SPECILIZATION_SCORE":20,"CERTIFICATINO_SCORE":4,"PUBLICATION_SCORE":4,"TEAM_WORK_SCORE":4,"CUSTOMER_FOCUS_SCORE":8,"FOREIGN_LANGUAGE_SCORE":10}},{"_id":"58ff479c96f9b3748f739096","Name":"sdfsd","Candidate_ID":"14002","JOB_ID":"1600","values":{"EXP_SCORE":10,"COMMUNICATION":10,"RESEARCH_WORK":10,"EDUCATION_SCORE":15,"SPECILIZATION_SCORE":20,"CERTIFICATINO_SCORE":4,"PUBLICATION_SCORE":4,"TEAM_WORK_SCORE":4,"CUSTOMER_FOCUS_SCORE":8,"FOREIGN_LANGUAGE_SCORE":10}},{"_id":"58ff479f96f9b3748f739097","Name":"xyz","Candidate_ID":"14001","JOB_ID":"1600","values":{"EXP_SCORE":15,"COMMUNICATION":10,"RESEARCH_WORK":10,"EDUCATION_SCORE":15,"SPECILIZATION_SCORE":20,"CERTIFICATINO_SCORE":4,"PUBLICATION_SCORE":4,"TEAM_WORK_SCORE":4,"CUSTOMER_FOCUS_SCORE":8,"FOREIGN_LANGUAGE_SCORE":10}},{"_id":"58ff47a096f9b3748f739098","Name":"sdfsd","Candidate_ID":"14002","JOB_ID":"1600","values":{"EXP_SCORE":10,"COMMUNICATION":10,"RESEARCH_WORK":10,"EDUCATION_SCORE":15,"SPECILIZATION_SCORE":20,"CERTIFICATINO_SCORE":4,"PUBLICATION_SCORE":4,"TEAM_WORK_SCORE":4,"CUSTOMER_FOCUS_SCORE":8,"FOREIGN_LANGUAGE_SCORE":10}}]);
-	res.send("done");
-});
+
+require("./Ruchi.js")(router,db);
 require("./twitter.js")(router,db);
 require("./conversation.js")(router,db);
 require("./authenticate.js")(router,db);

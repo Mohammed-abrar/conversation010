@@ -1,17 +1,18 @@
 var watson = require('watson-developer-cloud');
 var conversation = watson.conversation({
-  username: '54580cf2-cd73-4370-a128-11234ef6d659',
-  password: 'ydezuiruiGNJ',
+  username: '376867d2-99de-4e84-a642-67f612aab01f',
+  password: 'iRJXj4faSOLP',
   version: 'v1',
   version_date: '2016-09-20'
 });
 
-var workspaceId = "d3fd12ea-e21a-42d4-974b-741e77821a98";
+var workspaceId = "5fb0e253-646a-4f81-8a0a-ff9c3c5f258c";
 var context = {};
 var questions = [];
 
 module.exports = function(router,db){
 	router.post("/askfirst",
+	require('connect-ensure-login').ensureLoggedIn(),
 	function(req, res, next) {	
 		context = {"username": 'Abrar'};
 		conversation.message({
@@ -31,6 +32,7 @@ module.exports = function(router,db){
 		});
 });
 router.post("/askwatson",
+	require('connect-ensure-login').ensureLoggedIn(),
 	function(req, res, next) {	
 		conversation.message({
 		  workspace_id: workspaceId,
