@@ -5,6 +5,7 @@ var watson = require('watson-developer-cloud');
 var mongo = require('mongodb');
 var monk = require('monk');
 var http = require('http');
+var ObjectID = require('mongodb').ObjectID;
 //var db = monk('localhost:27017/MyApplicationDatabase');
 var db = monk('mongodb://mohammed_abrar95:BPEJTwZgEYgKwixL@myapplicationdatabase-shard-00-00-gmb8r.mongodb.net:27017,myapplicationdatabase-shard-00-01-gmb8r.mongodb.net:27017,myapplicationdatabase-shard-00-02-gmb8r.mongodb.net:27017/MyDatabase?ssl=true&replicaSet=MyApplicationDatabase-shard-0&authSource=admin');
 router.get('/',
@@ -15,14 +16,16 @@ router.get('/',
 router.get('/initialize',
   function(req, res) {
    	 db.collection('counters').insert({
-	      _id: 1,
+	      _id:ObjectID("userid") ,
 	      seq: 0
-	   });
+	   }).then(function(response){
+	 	res.send(response);
+	 });
   });
  
-function getNextSequence(id) {
+function getNextSequence(name) {
    var ret = db.collection(counters).findOneAndUpdate(
-           { _id: id },
+           { _id: ObjectID(name) },
            { $inc: { seq: 1 } }
    );
 
@@ -31,8 +34,8 @@ function getNextSequence(id) {
 
 router.get('/autosave',
   function(req, res) {
-   	db.collection('student').insert({
-	_id: getNextSequence(1),
+   	db.collection('datatable').insert({
+	_id: getNextSequence("userid"),
 	name : "xyz"
 	}).then(function(response){
 		res.send("done");
