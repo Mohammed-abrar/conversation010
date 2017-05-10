@@ -42,7 +42,7 @@ function getNextSequence(name) {
 router.get('/autosave',
   function(req, res) {
 	 res.send(db.collection('counters').findOneAndUpdate(
-	  { _id : name },
+	  { _id : '5901e810cbe8f800530f03df' },
 	  { 
 	     $set: { $inc :{ seq: 1 } }
 	  }
@@ -50,7 +50,7 @@ router.get('/autosave',
   });
 router.get('/disp',
   function(req, res) {
-   	db.collection('counter').find().then(function(response){
+   	db.collection('counters').find().then(function(response){
 		res.send(response);
 	});
   });
