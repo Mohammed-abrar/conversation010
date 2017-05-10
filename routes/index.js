@@ -17,7 +17,7 @@ router.get('/initialize',
   function(req, res) {
 	db.collection('counters').drop();
    	 db.collection('counters').insert({
-	      _id : "FieldShoudBeHexDecimalString",
+	      _id : '5901e810cbe8f800530f03df',
 	      seq: 0
 	   }).then(function(response){
 	 	res.send(response);
@@ -36,7 +36,7 @@ function getNextSequence(name) {
 router.get('/autosave',
   function(req, res) {
    	db.collection('datatable').insert({
-	candidate_id : getNextSequence("FieldShoudBeHexDecimalString"),
+	candidate_id : getNextSequence("5901e810cbe8f800530f03df"),
 	name : "xyz"
 	}).then(function(response){
 		res.send("done");
