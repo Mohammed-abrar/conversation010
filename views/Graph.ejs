@@ -239,7 +239,7 @@ app.controller('Graph', function($scope, $http , $filter) {
 			 notgood = Math.round(notgood /response.data.length * 100);
 			 overqualified = Math.round(overqualified /response.data.length * 100);
 			 $scope.data = [verygood,good,average,overqualified,notgood];
-====
+
 
 			  for(var i = 0 ; i < $scope.overqualifiedstudents.length  ; i++)
 			  {
@@ -248,7 +248,7 @@ app.controller('Graph', function($scope, $http , $filter) {
 					$scope.overGraph.push([$scope.overqualifiedstudents[i].student.values.EXP_SCORE , $scope.overqualifiedstudents[i].student.values.COMMUNICATION  , $scope.overqualifiedstudents[i].student.values.RESEARCH_WORK , $scope.overqualifiedstudents[i].student.values.EDUCATION_SCORE , $scope.overqualifiedstudents[i].student.values.SPECILIZATION_SCORE , $scope.overqualifiedstudents[i].student.values.CERTIFICATINO_SCORE , $scope.overqualifiedstudents[i].student.values.PUBLICATION_SCORE , $scope.overqualifiedstudents[i].student.values.TEAM_WORK_SCORE , $scope.overqualifiedstudents[i].student.values.CUSTOMER_FOCUS_SCORE , $scope.overqualifiedstudents[i].student.values.FOREIGN_LANGUAGE_SCORE,0]);					 
 			  }
 
-				====
+		
  
 			 $scope.student = $filter('orderBy')($scope.student, '-total');
 			  for(var i = 0 ; i < $scope.student.length && i < 10 ;i++)
