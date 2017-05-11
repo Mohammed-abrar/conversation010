@@ -164,7 +164,7 @@ app.controller('Graph', function($scope, $http , $filter) {
 		$scope.labels = ["very good in %","good in %","average in %","Overqualified in %"];	 
 		$scope.student = [];
 		$scope.overqualifiedstudents = [];
-		var overqualified = 0,verygood = 0, good = 0,average = 0,total = 0, studentNames = [], studentMarks = [];
+		var overqualified = 0,verygood = 0, notgood =0 ,good = 0,average = 0,total = 0, studentNames = [], studentMarks = [];
 		 $http.get('/getdata').then(function(response){
 		     
 			 for(var i = 0 ; i < response.data.length ;i++)
