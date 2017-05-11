@@ -189,6 +189,8 @@ var app = angular.module('myApp',["chart.js"])
 app.controller('Graph', function($scope, $http , $filter) {			
 		$scope.button1 = 1;
 		$scope.flag = 0;
+	        $scope.overGraph = [];
+		$scope.overGraphLables = ["EXP_SCORE","COMMUNICATION","RESEARCH_WORK","EDUCATION_SCORE","SPECILIZATION_SCORE","CERTIFICATINO_SCORE","PUBLICATION_SCORE","TEAM_WORK_SCORE","CUSTOMER_FOCUS_SCORE","FOREIGN_LANGUAGE_SCORE"];
 		$scope.studentGraph = [];
 		$scope.studentGraphLables = ["EXP_SCORE","COMMUNICATION","RESEARCH_WORK","EDUCATION_SCORE","SPECILIZATION_SCORE","CERTIFICATINO_SCORE","PUBLICATION_SCORE","TEAM_WORK_SCORE","CUSTOMER_FOCUS_SCORE","FOREIGN_LANGUAGE_SCORE"];
 		$scope.labels = ["very good in %","good in %","average in %","Overqualified in %","not good in %",];	 
@@ -208,6 +210,7 @@ app.controller('Graph', function($scope, $http , $filter) {
 				{
 					notgood++;
 					$scope.overqualifiedstudents.push(response.data[i]);
+				
 				}
 				else
 				{					
@@ -238,7 +241,15 @@ app.controller('Graph', function($scope, $http , $filter) {
 			 $scope.data = [verygood,good,average,overqualified,notgood];
  
 			 $scope.student = $filter('orderBy')($scope.student, '-total');
-			  for(var i = 0 ; i < $scope.student.length && i < 10 ;i++)
+			 
+			 	  for(var i = 0 ; i < $scope.overqualifiedstudents.length  ; i++)
+			  {
+					overstudentNames.push($scope.overqualifiedstudents[i].student.Candidate_ID);
+					overstudentMarks.push($scope.overqualifiedstudents[i].total);
+					$scope.overGraph.push([$scope.overqualifiedstudents[i].student.values.EXP_SCORE , $scope.overqualifiedstudents[i].student.values.COMMUNICATION  , $scope.overqualifiedstudents[i].student.values.RESEARCH_WORK , $scope.overqualifiedstudents[i].student.values.EDUCATION_SCORE , $scope.overqualifiedstudents[i].student.values.SPECILIZATION_SCORE , $scope.overqualifiedstudents[i].student.values.CERTIFICATINO_SCORE , $scope.overqualifiedstudents[i].student.values.PUBLICATION_SCORE , $scope.overqualifiedstudents[i].student.values.TEAM_WORK_SCORE , $scope.overqualifiedstudents[i].student.values.CUSTOMER_FOCUS_SCORE , $scope.overqualifiedstudents[i].student.values.FOREIGN_LANGUAGE_SCORE,0]);					 
+			  }
+			  
+			  for(var i = 0 ; i < $scope.student.length  ;i++)
 			  {
 					studentNames.push($scope.student[i].student.Candidate_ID);
 					studentMarks.push($scope.student[i].total);
