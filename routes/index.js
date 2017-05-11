@@ -15,8 +15,8 @@ router.get('/',
 
 router.get('/initialize',
   function(req, res) {
+	db.collection('mycollection').drop();
 	db.collection('counters').drop();
-	db.collection('datatable').drop();
    	 db.collection('counters').insert({
 	      _id : '5901e810cbe8f800530f03df',
 	      seq: 0
@@ -25,32 +25,24 @@ router.get('/initialize',
 	 });
   });
  
-
-function getNextSequence(name) {
-  db.collection('counters').findOneAndUpdate(
-  { _id : name },
-    { 
-	  $set: { $inc :{ seq: 1 } }
-    }
-)
-.then(function(result) {
- 	console.log(result);
-	return(result);
-})
-}
-
-router.get('/autosave',
-  function(req, res) {
-	 res.send(db.collection('counters').findOneAndUpdate(
-	  { _id : '5901e810cbe8f800530f03df' },
-	  { 
-	     $set: { $inc :{ seq: 1 } }
+router.get('/save', function(req,res){
+	db.collection('counters').findOneAndUpdate(
+        {_id : '5901e810cbe8f800530f03df' },
+        { $inc: { seq: 1 } },
+	  {
+		returnNewDocument: true
 	  }
-	));
-  });
+    ).then(function(result) {
+		db.collection('mycollection').insert({"candidate_id" : result.seq});
+		
+	});
+	res.send("done");
+});
+  
+  
 router.get('/disp',
   function(req, res) {
-   	db.collection('counters').find().then(function(response){
+   	db.collection('mycollection').find().then(function(response){
 		res.send(response);
 	});
   });
