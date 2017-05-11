@@ -217,9 +217,16 @@ app.controller('Graph', function($scope, $http , $filter) {
 					$scope.student.push({"student":response.data[i] ,"total": response.data[i].values.TOTAL});
 				 }
 				 if(response.data[i].values.TOTAL >= 50 && response.data[i].values.TOTAL < 60)
+				 {
 					good++;
+					$scope.student.push({"student":response.data[i] ,"total": response.data[i].values.TOTAL});
+					}
 				 if(response.data[i].values.TOTAL >= 25 && response.data[i].values.TOTAL < 50)
-					average++;	
+				 {
+					average++;
+					
+					$scope.student.push({"student":response.data[i] ,"total": response.data[i].values.TOTAL});
+					}
 				}
 			 }
 			 console.log(overqualified);
