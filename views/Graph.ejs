@@ -196,8 +196,9 @@ app.controller('Graph', function($scope, $http , $filter) {
 			 verygood = Math.round(verygood /response.data.length * 100);
 			 good = Math.round(good /response.data.length * 100);
 			 average = Math.round(average /response.data.length * 100);
+			 notgood = Math.round(notgood /response.data.length * 100);
 			 overqualified = Math.round(overqualified /response.data.length * 100);
-			 $scope.data = [verygood,good,average,overqualified];
+			 $scope.data = [verygood,good,average,overqualified,notgood];
  
 			 $scope.student = $filter('orderBy')($scope.student, '-total');
 			  for(var i = 0 ; i < $scope.student.length && i < 10 ;i++)
@@ -229,6 +230,9 @@ $scope.chart = function(){
   }, {
     "GRADE": "Over Qualified",
     "value": overqualified
+  }, {
+    "GRADE": "Not Good",
+    "value": notgood
   }],
   "valueField": "value",
   "titleField": "GRADE",
