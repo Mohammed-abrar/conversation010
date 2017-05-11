@@ -1,4 +1,3 @@
-
 <html>
 <head>
 	<title> Graphs </title>
@@ -135,7 +134,8 @@
 							<h3> view full score </h3>
 						</th>
 					 </tr>
-					  <tr ng-repeat="x in overqualifiedstudents">												
+					  <tr ng-repeat="x in x in student track by $index">	
+						<div ng-if = "student[$index].student.GRADE=='Overqualified'">
 							<td class = "col-sm-3">
 								{{x.Candidate_ID}}
 							</td>
@@ -168,7 +168,7 @@
 										</div>
 									</div>
 							</td>
-
+						 </div>
 					  </tr>
 				</table>
 			 </div>
