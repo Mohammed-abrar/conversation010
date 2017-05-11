@@ -134,7 +134,8 @@
 							<h3> view full score </h3>
 						</th>
 					 </tr>
-					  <tr ng-repeat="x in overqualifiedstudents">												
+					  <tr ng-repeat="x in overqualifiedstudents track by $index">	
+						
 							<td class = "col-sm-3">
 								{{x.Candidate_ID}}
 							</td>
@@ -142,22 +143,22 @@
 								{{x.Reason}}
 							</td>
                             	<td>
-								 <button type="button" class="btn btn-link" data-toggle="modal" data-target="#{{x.student._id}}">view</button>
-							   	    <div class="modal fade" id="{{x.student._id}}" role="dialog">
+								 <button type="button" class="btn btn-link" data-toggle="modal" data-target="#{{x._id}}">view</button>
+							   	    <div class="modal fade" id="{{x._id}}" role="dialog">
 										<div class="modal-dialog">											
 											  <!-- Modal content-->
 											<div class="modal-content">
 												<div class="modal-header">
 												  <button type="button" class="close" data-dismiss="modal">&times;</button>
-												  <h4 class="modal-title">CandidateID: {{student[$index].student.Candidate_ID}}<br/>
-													Candidate_ID:	{{student[$index].student.Candidate_ID}}</h4>
+												  <h4 class="modal-title">CandidateID: {{overqualifiedstudents[$index].Candidate_ID}}<br/>
+													Candidate_ID:	{{overqualifiedstudents[$index].Candidate_ID}}</h4>
 												</div>
 												
 												<div class="modal-body">
 													<canvas id="bar" class="chart-horizontal-bar"
-														chart-data="studentGraph[$index]" chart-labels="studentGraphLables" chart-series="series">
+														chart-data="overqualifiedGraph[$index]" chart-labels="studentGraphLables" chart-series="series">
 													</canvas>
-													<a href = "/Resume/{{student[$index].student.JOB_ID}}" target="_blank" >Resume </a>
+													<a href = "/Resume/{{overqualifiedstudents[$index].JOB_ID}}" target="_blank" >Resume </a>
 												</div>
 											
 												<div class="modal-footer">
@@ -167,11 +168,9 @@
 										</div>
 									</div>
 							</td>
-
 					  </tr>
 				</table>
 			 </div>
-			 
 		</div>
 		
 	</div>	
@@ -191,11 +190,12 @@ app.controller('Graph', function($scope, $http , $filter) {
 	        $scope.overGraph = [];
 		$scope.overGraphLables = ["EXP_SCORE","COMMUNICATION","RESEARCH_WORK","EDUCATION_SCORE","SPECILIZATION_SCORE","CERTIFICATINO_SCORE","PUBLICATION_SCORE","TEAM_WORK_SCORE","CUSTOMER_FOCUS_SCORE","FOREIGN_LANGUAGE_SCORE"];
 		$scope.studentGraph = [];
+		$scope.overqualifiedGraph = [];
 		$scope.studentGraphLables = ["EXP_SCORE","COMMUNICATION","RESEARCH_WORK","EDUCATION_SCORE","SPECILIZATION_SCORE","CERTIFICATINO_SCORE","PUBLICATION_SCORE","TEAM_WORK_SCORE","CUSTOMER_FOCUS_SCORE","FOREIGN_LANGUAGE_SCORE"];
 		$scope.labels = ["very good in %","good in %","average in %","Overqualified in %","not good in %",];	 
 		$scope.student = [];
 		$scope.overqualifiedstudents = [];
-		var overqualified = 0,verygood = 0, notgood =0 ,good = 0,average = 0,total = 0, studentNames = [], studentMarks = [];
+		var overqualified = 0,verygood = 0, notgood =0 ,good = 0,average = 0,total = 0, studentNames = [], studentMarks = [] ,overqualifiedstudentsId = [],overqualifiedstudentMarks = [];
 		 $http.get('/getdata').then(function(response){
 		     
 			 for(var i = 0 ; i < response.data.length ;i++)
@@ -251,6 +251,13 @@ app.controller('Graph', function($scope, $http , $filter) {
 				  studentMarks.push(0);
 			 $scope.stulabel = studentNames;
 			 $scope.studata = studentMarks;
+			 
+			 
+			 //overqualified graph data
+			 for(var i = 0; i < $scope.overqualifiedstudents.length; i++)
+			 {
+				$scope.overqualifiedGraph.push([$scope.overqualifiedstudents[i].values.EXP_SCORE , $scope.overqualifiedstudents[i].values.COMMUNICATION  , $scope.overqualifiedstudents[i].values.RESEARCH_WORK , $scope.overqualifiedstudents[i].values.EDUCATION_SCORE , $scope.overqualifiedstudents[i].values.SPECILIZATION_SCORE , $scope.overqualifiedstudents[i].values.CERTIFICATINO_SCORE , $scope.overqualifiedstudents[i].values.PUBLICATION_SCORE , $scope.overqualifiedstudents[i].values.TEAM_WORK_SCORE , $scope.overqualifiedstudents[i].values.CUSTOMER_FOCUS_SCORE , $scope.overqualifiedstudents[i].values.FOREIGN_LANGUAGE_SCORE,0]);					 	 
+			 }
 			 if($scope.flag == 0)
 			 $scope.chart();
 		 });	
