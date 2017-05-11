@@ -174,6 +174,11 @@ app.controller('Graph', function($scope, $http , $filter) {
 					overqualified++;
 					$scope.overqualifiedstudents.push(response.data[i]);
 				}
+				else if(angular.equals(response.data[i].GRADE,"Not Good")== true)
+				{
+					notgood++;
+					$scope.overqualifiedstudents.push(response.data[i]);
+				}
 				else
 				{					
 				 if(response.data[i].values.TOTAL >= 60 && response.data[i].values.TOTAL <= 100)
@@ -197,7 +202,7 @@ app.controller('Graph', function($scope, $http , $filter) {
 			 $scope.student = $filter('orderBy')($scope.student, '-total');
 			  for(var i = 0 ; i < $scope.student.length && i < 10 ;i++)
 			  {
-					studentNames.push($scope.student[i].student.Name);
+					studentNames.push($scope.student[i].student.Candidate_ID);
 					studentMarks.push($scope.student[i].total);
 					$scope.studentGraph.push([$scope.student[i].student.values.EXP_SCORE , $scope.student[i].student.values.COMMUNICATION  , $scope.student[i].student.values.RESEARCH_WORK , $scope.student[i].student.values.EDUCATION_SCORE , $scope.student[i].student.values.SPECILIZATION_SCORE , $scope.student[i].student.values.CERTIFICATINO_SCORE , $scope.student[i].student.values.PUBLICATION_SCORE , $scope.student[i].student.values.TEAM_WORK_SCORE , $scope.student[i].student.values.CUSTOMER_FOCUS_SCORE , $scope.student[i].student.values.FOREIGN_LANGUAGE_SCORE,0]);					 
 			  }
@@ -224,6 +229,9 @@ $scope.chart = function(){
   }, {
     "GRADE": "Over Qualified",
     "value": overqualified
+  },, {
+    "GRADE": "Not Good",
+    "value": notgood
   }],
   "valueField": "value",
   "titleField": "GRADE",
