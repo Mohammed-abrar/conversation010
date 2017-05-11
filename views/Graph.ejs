@@ -176,14 +176,14 @@ app.controller('Graph', function($scope, $http , $filter) {
 				}
 				else
 				{					
-				 if(response.data[i].values.TOTAL >= 75 && response.data[i].values.TOTAL <= 100)
+				 if(response.data[i].values.TOTAL >= 60 && response.data[i].values.TOTAL <= 100)
 				 {
 					verygood++;
 					$scope.student.push({"student":response.data[i] ,"total": response.data[i].values.TOTAL});
 				 }
-				 if(response.data[i].values.TOTAL >= 50 && response.data[i].values.TOTAL < 75)
+				 if(response.data[i].values.TOTAL >= 50 && response.data[i].values.TOTAL < 60)
 					good++;
-				 if(response.data[i].values.TOTAL >= 35 && response.data[i].values.TOTAL < 50)
+				 if(response.data[i].values.TOTAL >= 25 && response.data[i].values.TOTAL < 50)
 					average++;	
 				}
 			 }
