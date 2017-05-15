@@ -29,7 +29,7 @@
 .chartdiv1 {
   width: 100%;
   height: 300px;
-  
+
 }	
 								
 </style>
@@ -345,6 +345,7 @@ $scope.DrawGraph = function(chartid,data){
         "unit": "%",
         "position": "left",
         "title": "Scores",
+		 "fontSize": 10
     }],
     "startDuration": 0.5,
     "graphs": [{
@@ -371,7 +372,8 @@ $scope.DrawGraph = function(chartid,data){
     },
     "export": {
     	"enabled": false
-     }
+     },
+	 "fontSize": 7
 });
 }
 		 
@@ -409,7 +411,21 @@ $scope.chart = function(){
 
 </script>
 <script>
+jQuery('.chart-input').off().on('input change',function() {
+	var property	= jQuery(this).data('property');
+	var target		= chart;
+	chart.startDuration = 0;
 
+	if ( property == 'topRadius') {
+		target = chart.graphs[0];
+      	if ( this.value == 0 ) {
+          this.value = undefined;
+      	}
+	}
+
+	target[property] = this.value;
+	chart.validateNow();
+});
 
 </script>
 </html>
