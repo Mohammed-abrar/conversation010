@@ -24,13 +24,29 @@
   height: 300px;
 }												
 </style>
+<!-- Styles -->
+<style>
+.chartdiv1 {
+  width: 100%;
+  height: 300px;
+  
+}	
+								
+</style>
+
+<script src="https://www.amcharts.com/lib/3/serial.js"></script>
+
+
+
+<!-- HTML -->
 
 
 <body ng-app = "myApp" ng-controller = "Graph">
+
 	<div class = "container">	
 		<div class = "row">
 			  <div class = "col col-sm-6">
-					<h3> Average,Good and Very Good in percentage </h3>
+					<h3>Candidate Evaluation </h3>
 				<button class = "btn btn-success btn-block" ng-click = "flag = !flag"> chart </button><br/><br/>
 				<div  ng-if ="flag==0"  ng-init="chart()">
 					<div id="chartdiv"></div>
@@ -43,7 +59,7 @@
 			  </div>		 					
 			
 			<div class = "col col-sm-6">	
-				<h3> Top very good scorers </h3>
+				<h3> Top Scorer </h3>
 				<button class = "btn btn-success btn-block" ng-click = "button1=!button1"> chart </button><br/><br/>
 				<div ng-if ="button1==0">
 					<canvas id="pie" class="chart chart-pie"
@@ -64,11 +80,11 @@
 			<div class="table-responsive">
 					<table class="table" border="2.0">
 						<caption>
-							<h3> Top very good scorers </h3> 	
+							<h3> Top Scores Details</h3> 	
 						</caption>
 					 <tr>
 						<th>
-							<h3>Candidate_ID</h3>
+							<h3>Candidate ID</h3>
 						</th>
 						
 						<th>
@@ -96,19 +112,22 @@
 							<td>
 								 <button type="button" class="btn btn-link" data-toggle="modal" data-target="#{{x.student._id}}">view</button>
 							   	    <div class="modal fade" id="{{x.student._id}}" role="dialog">
-										<div class="modal-dialog">											
+										<div class="modal-dialog modal-lg">											
 											  <!-- Modal content-->
 											<div class="modal-content">
 												<div class="modal-header">
 												  <button type="button" class="close" data-dismiss="modal">&times;</button>
 												  <h4 class="modal-title">CandidateID: {{student[$index].student.Candidate_ID}}<br/>
-													Candidate_ID:	{{student[$index].student.Candidate_ID}}</h4>
+													Candidate ID:	{{student[$index].student.Candidate_ID}}</h4>
 												</div>
 												
-												<div class="modal-body">
-													<canvas id="bar" class="chart-horizontal-bar"
-														chart-data="studentGraph[$index]" chart-labels="studentGraphLables" chart-series="series">
-													</canvas>
+												<div class="modal-body container-fluid">
+														
+													<div id={{chartid='chart_'+student[$index].student.Candidate_ID}} class = "chartdiv1" >
+														{{DrawGraph(chartid,studentGraph[$index])}}															
+													</div>
+													
+													
 													<a href = "{{student[$index].student.JOB_ID}}" target="_blank" >Resume </a>
 												</div>
 											
@@ -127,11 +146,11 @@
 			 <div class = "col col-sm-6">
 				<table class="table" border="2.0">
 						<caption>
-							<h3> Over and Not Qualified Candidates</h3> 	
+							<h3> Not Eligible Candidate</h3> 	
 						</caption>
 					 <tr>
 						<th>
-							<h3>Candidate_ID</h3>
+							<h3>Candidate ID</h3>
 						</th>
 						<th>
 							<h3>Candidate Name</h3>
@@ -197,7 +216,8 @@
 </body>
 <script>
 var app = angular.module('myApp',["chart.js"])
-app.controller('Graph', function($scope, $http , $filter) {			
+app.controller('Graph', function($scope, $http , $filter) {		
+		  $scope.series = ['Maximum', 'Obtained'];
 		$scope.button1 = 1;
 		$scope.flag = 0;
 	        $scope.overGraph = [];
@@ -273,7 +293,88 @@ app.controller('Graph', function($scope, $http , $filter) {
 			 }
 			 if($scope.flag == 0)
 			 $scope.chart();
-		 });	
+		 });
+
+$scope.DrawGraph = function(chartid,data){
+	var chart = AmCharts.makeChart(chartid, {
+    "theme": "light",
+    "type": "serial",
+    "dataProvider": [{
+        "subject": "EXP",
+        "Max": 15,
+        "Obtained":data[0]
+    }, {
+        "subject": "COMMUNICATION",
+        "Max": 10 ,
+        "Obtained": data[1]
+    }, {
+        "subject": "RESEARCH_WORK",
+        "Max": 10,
+        "Obtained": data[2]
+    }, {
+        "subject": "EDUCATION",
+        "Max": 15,
+        "Obtained": data[3]
+    }, {
+        "subject": "SPECILIZATION",
+        "Max": 20,
+        "Obtained": data[4]
+    }, {
+        "subject": "CERTIFICATION",
+        "Max": 4,
+        "Obtained": data[5]
+    }, {
+        "subject": "PUBLICATION",
+        "Max": 4,
+        "Obtained": data[6]
+    }, {
+        "subject": "TEAM_WORK",
+        "Max": 4,
+        "Obtained": data[7]
+    }, {
+        "subject": "CUSTOMER_FOCUS",
+        "Max": 8,
+        "Obtained": data[8]
+    }, {
+        "subject": "FOREIGN_LANGUAGE",
+        "Max": 10,
+        "Obtained": data[9]
+    }],
+    "valueAxes": [{
+        "stackType": "3d",
+        "unit": "%",
+        "position": "left",
+        "title": "Scores",
+    }],
+    "startDuration": 0.5,
+    "graphs": [{
+        "balloonText": " Actual scores in [[category]] : <b>[[value]]</b>",
+        "fillAlphas": 0.9,
+        "lineAlpha": 0.4,
+ 
+        "type": "column",
+        "valueField": "Obtained"
+    }, {
+        "balloonText": "Max score in [[category]] : <b>[[value]]</b>",
+        "fillAlphas": 0.9,
+        "lineAlpha": 0.9,
+        "type": "column",
+        "valueField": "Max"
+    }],
+    "plotAreaFillAlphas": 0.5,
+    "depth3D": 60,
+    "angle": 30,
+    "categoryField": "subject",
+    "categoryAxis": {
+        "gridPosition": "start",
+
+    },
+    "export": {
+    	"enabled": false
+     }
+});
+}
+		 
 $scope.chart = function(){
  AmCharts.makeChart( "chartdiv", {
   "type": "pie",
@@ -305,6 +406,11 @@ $scope.chart = function(){
 });
 }
 });
+
+</script>
+<script>
+
+
 </script>
 </html>
 
