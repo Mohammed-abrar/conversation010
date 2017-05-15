@@ -177,7 +177,7 @@
                             	<td>
 								 <button type="button" class="btn btn-link" data-toggle="modal" data-target="#{{x._id}}">view</button>
 							   	    <div class="modal fade" id="{{x._id}}" role="dialog">
-										<div class="modal-dialog">											
+										<div class="modal-dialog modal-lg">											
 											  <!-- Modal content-->
 											<div class="modal-content">
 												<div class="modal-header">
@@ -187,9 +187,11 @@
 												</div>
 												
 												<div class="modal-body">
-													<canvas id="bar" class="chart-horizontal-bar"
-														chart-data="overqualifiedGraph[$index]" chart-labels="studentGraphLables" chart-series="series">
-													</canvas>
+														
+													<div id={{chartid='chart_'+overqualifiedstudents[$index].Candidate_ID}} class = "chartdiv1" >
+														{{DrawGraph(chartid,overqualifiedGraph[$index])}}															
+													</div>
+													
 													<a href = "{{overqualifiedstudents[$index].JOB_ID}}" target="_blank" >Resume </a>
 												</div>
 											
