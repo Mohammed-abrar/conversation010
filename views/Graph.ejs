@@ -173,7 +173,7 @@ hr {
 													</div>
 													
 													
-													<a href = "{{student[$index].student.JOB_ID}}" target="_blank" >Resume </a>
+													<a href = "{{student[$index].student.JOB_ID}}" target="_blank" ><button class = "btn btn-sm btn-info">Resume</button> </a>
 												</div>
 											
 												<div class="modal-footer">
@@ -232,13 +232,13 @@ hr {
 														Candidate_ID:	{{overqualifiedstudents[$index].Candidate_ID}}</h4>
 													</div>
 													
-													<div class="modal-body">
+													<div class="modal-body container-fluid mymodal">
 															
 														<div id={{chartid='chart_'+overqualifiedstudents[$index].Candidate_ID}} class = "chartdiv" >
 															{{DrawGraph(chartid,overqualifiedGraph[$index])}}															
 														</div>
 														
-														<a href = "{{overqualifiedstudents[$index].JOB_ID}}" target="_blank" >Resume </a>
+														<a href = "{{overqualifiedstudents[$index].JOB_ID}}" target="_blank" ><button class = "btn btn-sm btn-info">Resume </button> </a>
 													</div>
 												
 													<div class="modal-footer">
