@@ -6,8 +6,8 @@ var mongo = require('mongodb');
 var monk = require('monk');
 var http = require('http');
 var ObjectID = require('mongodb').ObjectID;
-var db = monk('localhost:27017/MyApplicationDatabase');
-//var db = monk('mongodb://mohammed_abrar95:BPEJTwZgEYgKwixL@myapplicationdatabase-shard-00-00-gmb8r.mongodb.net:27017,myapplicationdatabase-shard-00-01-gmb8r.mongodb.net:27017,myapplicationdatabase-shard-00-02-gmb8r.mongodb.net:27017/MyDatabase?ssl=true&replicaSet=MyApplicationDatabase-shard-0&authSource=admin');
+//var db = monk('localhost:27017/MyApplicationDatabase');
+var db = monk('mongodb://mohammed_abrar95:BPEJTwZgEYgKwixL@myapplicationdatabase-shard-00-00-gmb8r.mongodb.net:27017,myapplicationdatabase-shard-00-01-gmb8r.mongodb.net:27017,myapplicationdatabase-shard-00-02-gmb8r.mongodb.net:27017/MyDatabase?ssl=true&replicaSet=MyApplicationDatabase-shard-0&authSource=admin');
 router.get('/',
   function(req, res) {
     res.render('home');
@@ -59,7 +59,7 @@ router.get('/rest',function(req,res){
 });
 
 router.get('/restWEX',function(req,res){
-	http.get('http://01hw424836:9080/vivisimo/cgi-bin/velocity.exe?v.function=query-search&v.indent=true&query=press%20releases&sources=Sample_Collection1202631&v.app=api-rest&v.username=api-user&v.password=1FcUs,D$',function(response){
+	http.get('http://01hw424836:9080/vivisimo/cgi-bin/velocity.exe?v.function=query-search&v.indent=true&query=press%20releases&sources=Sample_Collection1202631&v.app=api-rest&v.username=api-user&v.password=1FcUs,D$&output=application/json',function(response){
 	response.on('data', function (chunk) {
     res.send(chunk);
   });
