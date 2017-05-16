@@ -16,22 +16,65 @@
 		<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
 		<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
 		<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
-
 </head>
- <style>
-#chartdiv {
-  width: 100%;
-  height: 300px;
-}												
-</style>
+ 
 <!-- Styles -->
 <style>
-.chartdiv1 {
+.chartdiv {
   width: 100%;
   height: 300px;
+}
 
+body {
+	background-color : #8187a7; 
+	font-family : Times New Roman;
+	
 }	
-								
+hr {
+		border-top: 1px solid #8187a7;
+	border-bottom: 1px solid #8187a7;
+}
+.wrap{
+	background-color :#fff; 	
+}	
+.title {
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	text-align : center;
+	color : #1f517c;
+}
+	
+.mybutton {
+	background-color : #8187a7;
+	color : #fff;
+	font-size : 16px;
+}	
+.mytable {
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+	border-color : #8187a7;
+}
+.mytable th {
+    text-align: center;
+    background-color: #8187a7;
+    color: white;
+}	
+.mytable td, .mytable th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.mytable tr:nth-child(even){background-color: #f2f2f2;}
+
+.mytable tr:hover {background-color: #ddd;}
+.mytable caption {
+	color : #1f517c;
+	text-align : center;
+}
+.mymodal{
+	background-color : #8187a7; 
+	 color: white;
+}
 </style>
 
 <script src="https://www.amcharts.com/lib/3/serial.js"></script>
@@ -43,13 +86,13 @@
 
 <body ng-app = "myApp" ng-controller = "Graph">
 
-	<div class = "container">	
+	<div class = "container wrap">	
 		<div class = "row">
 			  <div class = "col col-sm-6">
-					<h3>Candidate Evaluation </h3>
-				<button class = "btn btn-success btn-block" ng-click = "flag = !flag"> chart </button><br/><br/>
+					<h3 class = "title">Candidate Evaluation </h3>
+				<button class = "btn btn-block mybutton" ng-click = "flag = !flag"> chart </button><br/><br/>
 				<div  ng-if ="flag==0"  ng-init="chart()">
-					<div id="chartdiv"></div>
+					<div id="chartdiv" class = "chartdiv"></div>
 				</div>
 				<div ng-if ="flag==1">				
 					<canvas id="bar" class="chart chart-bar"
@@ -59,8 +102,8 @@
 			  </div>		 					
 			
 			<div class = "col col-sm-6">	
-				<h3> Top Scorer </h3>
-				<button class = "btn btn-success btn-block" ng-click = "button1=!button1"> chart </button><br/><br/>
+				<h3 class = "title"> Top Scorer </h3>
+				<button class = "btn btn-block mybutton" ng-click = "button1=!button1"> chart </button><br/><br/>
 				<div ng-if ="button1==0">
 					<canvas id="pie" class="chart chart-pie"
 						chart-data="studata" chart-labels="stulabel" chart-options="options" style = "length : 20px;width:20px">
@@ -72,29 +115,31 @@
 					</canvas>	
 				</div>
 			</div>
-			
 		</div>
-		<br/><br/>
-		<div class = "row">
+		<hr>
+	</div>
+	
+	<div class = "container wrap">	
+		<div class = "row">	
 		  <div class = "col col-sm-6">
-			<div class="table-responsive">
-					<table class="table" border="2.0">
+			<div class="table-responsive mytable">
+					<table class="table" border="3.0">
 						<caption>
-							<h3> Top Scores Details</h3> 	
+							<h2> Top Scores Details</h3> 	
 						</caption>
 					 <tr>
 						<th>
-							<h3>Candidate ID</h3>
+							<h4>Candidate ID</h4>
 						</th>
 						
 						<th>
-							<h3>Candidate Name</h3>
+							<h4>Candidate Name</h4>
 						</th>
 						<th>
-							<h3>Score</h3>
+							<h4>Score</h4>
 						</th>
 						<th>
-							<h3> view full score </h3>
+							<h4> view full score </h4>
 						</th>
 					 </tr>
 						
@@ -121,9 +166,9 @@
 													Candidate ID:	{{student[$index].student.Candidate_ID}}</h4>
 												</div>
 												
-												<div class="modal-body container-fluid">
+												<div class="modal-body container-fluid mymodal">
 														
-													<div id={{chartid='chart_'+student[$index].student.Candidate_ID}} class = "chartdiv1" >
+													<div id={{chartid='chart_'+student[$index].student.Candidate_ID}} class = "chartdiv" >
 														{{DrawGraph(chartid,studentGraph[$index])}}															
 													</div>
 													
@@ -144,69 +189,70 @@
 				</div>
 			 </div>
 			 <div class = "col col-sm-6">
-				<table class="table" border="2.0">
-						<caption>
-							<h3> Not Eligible Candidate</h3> 	
-						</caption>
-					 <tr>
-						<th>
-							<h3>Candidate ID</h3>
-						</th>
-						<th>
-							<h3>Candidate Name</h3>
-						</th>
-						<th>
-							<h3>Reason</h3>
-						</th>
+				<div class="table-responsive mytable">
+					<table class="table" border="3.0">
+							<caption>
+								<h3> Not Eligible Candidate</h3> 	
+							</caption>
+						 <tr>
+							<th>
+								<h4>Candidate ID</h4>
+							</th>
+							<th>
+								<h4>Candidate Name</h4>
+							</th>
+							<th>
+								<h4>Reason</h4>
+							</th>
 
-                        <th>
-							<h3> view full score </h3>
-						</th>
-					 </tr>
-					  <tr ng-repeat="x in overqualifiedstudents track by $index">	
-						
-							<td class = "col-sm-3">
-								{{x.Candidate_ID}}
-							</td>
-							<td class = "col-sm-3">
-								{{x.Name}}
-							</td>
-							<td class = "col col-sm-3">
-								{{x.Reason}}
-							</td>
-                            	<td>
-								 <button type="button" class="btn btn-link" data-toggle="modal" data-target="#{{x._id}}">view</button>
-							   	    <div class="modal fade" id="{{x._id}}" role="dialog">
-										<div class="modal-dialog modal-lg">											
-											  <!-- Modal content-->
-											<div class="modal-content">
-												<div class="modal-header">
-												  <button type="button" class="close" data-dismiss="modal">&times;</button>
-												  <h4 class="modal-title">CandidateID: {{overqualifiedstudents[$index].Candidate_ID}}<br/>
-													Candidate_ID:	{{overqualifiedstudents[$index].Candidate_ID}}</h4>
-												</div>
-												
-												<div class="modal-body">
-														
-													<div id={{chartid='chart_'+overqualifiedstudents[$index].Candidate_ID}} class = "chartdiv1" >
-														{{DrawGraph(chartid,overqualifiedGraph[$index])}}															
+							<th>
+								<h4> view full score </h4>
+							</th>
+						 </tr>
+						  <tr ng-repeat="x in overqualifiedstudents track by $index">	
+							
+								<td class = "col-sm-3">
+									{{x.Candidate_ID}}
+								</td>
+								<td class = "col-sm-3">
+									{{x.Name}}
+								</td>
+								<td class = "col col-sm-3">
+									{{x.Reason}}
+								</td>
+									<td>
+									 <button type="button" class="btn btn-link" data-toggle="modal" data-target="#{{x._id}}">view</button>
+										<div class="modal fade" id="{{x._id}}" role="dialog">
+											<div class="modal-dialog modal-lg">											
+												  <!-- Modal content-->
+												<div class="modal-content">
+													<div class="modal-header">
+													  <button type="button" class="close" data-dismiss="modal">&times;</button>
+													  <h4 class="modal-title">CandidateID: {{overqualifiedstudents[$index].Candidate_ID}}<br/>
+														Candidate_ID:	{{overqualifiedstudents[$index].Candidate_ID}}</h4>
 													</div>
 													
-													<a href = "{{overqualifiedstudents[$index].JOB_ID}}" target="_blank" >Resume </a>
-												</div>
-											
-												<div class="modal-footer">
-												  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-												</div>
-											</div>											  
+													<div class="modal-body">
+															
+														<div id={{chartid='chart_'+overqualifiedstudents[$index].Candidate_ID}} class = "chartdiv" >
+															{{DrawGraph(chartid,overqualifiedGraph[$index])}}															
+														</div>
+														
+														<a href = "{{overqualifiedstudents[$index].JOB_ID}}" target="_blank" >Resume </a>
+													</div>
+												
+													<div class="modal-footer">
+													  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+													</div>
+												</div>											  
+											</div>
 										</div>
-									</div>
-							</td>
-					  </tr>
-				</table>
+								</td>
+						  </tr>
+					</table>
+				</div>
 			 </div>
-		</div>
-		
+		</div>	
 	</div>	
 
    <!-- Modal -->
