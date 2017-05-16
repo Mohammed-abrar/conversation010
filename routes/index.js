@@ -59,7 +59,7 @@ router.get('/rest',function(req,res){
 });
 
 router.get('/restWEX',function(req,res){
-	http.get('http://01hw424836:9080/vivisimo/cgi-bin/velocity.exe?v.function=query-search&v.indent=true&query=press%20releases&sources=Sample_Collection1202631&v.app=api-rest&v.username=api-user&v.password=1FcUs,D$&output=application/json',function(response){
+	http.get('http://01hw424836:9080/vivisimo/cgi-bin/velocity.exe?v.function=query-search&v.indent=true&query=press%20releases&sources=Sample_Collection1202631&v.app=api-rest&v.username=api-user&v.password=1FcUs,D$',function(response){
 	response.on('data', function (chunk) {
     res.send(chunk);
   });
