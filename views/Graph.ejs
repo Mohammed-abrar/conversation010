@@ -29,7 +29,12 @@
 <!-- Styles -->
 <style>
 
-	  
+	 #profile pre {
+        max-height: 400px;
+      }
+      #textSummary {
+        font-size: 1.2em;
+      }  
 .chartdiv {
   width: 100%;
   height: 300px;
@@ -276,7 +281,7 @@ hr {
 		</div>	
 	</div>		
 <!-- Modal -->
-							<div id="mymodal" class="modal fade" role="dialog">
+							<div id="mymodal" class="modal fade my" role="dialog">
 							  <div class="modal-dialog modal-lg">							
 								<div class="modal-content">
 								  <div class="modal-header">
@@ -545,10 +550,10 @@ $scope.DrawGraph = function(chartid,data){
 });
 }
 
-$.getJSON('/en_v2.json', '', function ( profile ) {
+$.getJSON('/PersonalityInsights/pi.json', '', function ( profile ) {
         $('#profile').append('<pre>' + JSON.stringify(profile, null, 2) + '</pre>');
         var chart = new PersonalitySunburstChart({'selector': '#sunburstChart'});
-        chart.show(profile, '/profile_photo.jpg');
+        chart.show(profile, '/images/profile_photo.jpg');
         //chart.show(profile);
       });
 		 
