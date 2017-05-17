@@ -366,7 +366,7 @@ app.controller('Graph', function($scope, $http , $filter) {
 			  for(var i = 0 ; i < $scope.student.length && i <= 10  ;i++)
 			  {
 					$scope.studentData.push({"Candidate_ID": $scope.student[i].student.Candidate_ID,"total":$scope.student[i].total});
-					studentNames.push($scope.student[i].student.Candidate_ID);
+					studentNames.push($scope.student[i].student.Name);
 					studentMarks.push($scope.student[i].total);
 				}
 			  for(var i = 0 ; i < $scope.student.length  ;i++)
