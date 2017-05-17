@@ -208,7 +208,7 @@ hr {
 							</td>
 						</div>
 						<td>
-							<button type="button" class="btn btn-link" data-toggle="modal" data-target="#mymodal">view</button>				
+							<button type="button" class="btn btn-link" data-toggle="modal" data-target="#mymodal" ng-click = "PersonalityInsights(student[$index].student.Candidate_ID)">view</button>				
 						</td>
 					 </tr>
 					</table>
@@ -366,7 +366,7 @@ app.controller('Graph', function($scope, $http , $filter) {
 			  for(var i = 0 ; i < $scope.student.length && i <= 10  ;i++)
 			  {
 					$scope.studentData.push({"Candidate_ID": $scope.student[i].student.Candidate_ID,"total":$scope.student[i].total});
-					studentNames.push($scope.student[i].student.Name);
+					studentNames.push($scope.student[i].student.Candidate_ID);
 					studentMarks.push($scope.student[i].total);
 				}
 			  for(var i = 0 ; i < $scope.student.length  ;i++)
@@ -408,7 +408,7 @@ $scope.DrawTopScorerGraph = function(data){
 		"dataProvider": data,
 		"valueAxes": [{
 			"position": "left",
-			"title": "Candidate Score"
+			"title": "Visitors"
 		}],
 		"graphs": [{
 			"balloonText": "[[category]]: <b>[[value]]</b>",
@@ -425,7 +425,7 @@ $scope.DrawTopScorerGraph = function(data){
 			"cursorAlpha": 0,
 			"zoomable": false
 		},
-		"categoryField": "studentNames",
+		"categoryField": "Candidate_ID",
 		"categoryAxis": {
 			"gridPosition": "start",
 			"labelRotation": 90
@@ -549,17 +549,14 @@ $scope.DrawGraph = function(chartid,data){
 	 "fontSize": 7
 });
 }
-
-$.getJSON('/PersonalityInsights/pi.json', '', function ( profile ) {
-        $('#profile').append('<pre>' + JSON.stringify(profile, null, 2) + '</pre>');
+$scope.PersonalityInsights = function(id){
+console.log(id);
+$.getJSON('/PersonalityInsights/'+id+'.json', '', function ( profile ) {
         var chart = new PersonalitySunburstChart({'selector': '#sunburstChart'});
-        chart.show(profile, '/images/profile_photo.jpg');
-        //chart.show(profile);
+        chart.show(profile, '/images/'+id+'.jpg');
       });
-		 
-
+}
 });
-
 </script>
 <script>
 jQuery('.chart-input').off().on('input change',function() {
