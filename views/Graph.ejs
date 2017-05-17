@@ -13,13 +13,23 @@
 			  <!-- Resources -->
 		<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
 		<script src="https://www.amcharts.com/lib/3/pie.js"></script>
+		<script src="https://www.amcharts.com/lib/3/serial.js"></script>
 		<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
 		<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
 		<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+		
+		 <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+		<script type="text/javascript" src="https://unpkg.com/personality-sunburst-chart@2.0.4/dist/index.js"></script>
+		<script src="https://d3js.org/d3-color.v1.min.js"></script>
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+
 </head>
  
 <!-- Styles -->
 <style>
+
+	  
 .chartdiv {
   width: 100%;
   height: 300px;
@@ -58,6 +68,7 @@ hr {
     text-align: center;
     background-color: #8187a7;
     color: white;
+	 text-transform: uppercase;
 }	
 .mytable td, .mytable th {
     border: 1px solid #ddd;
@@ -109,10 +120,8 @@ hr {
 						chart-data="studata" chart-labels="stulabel" chart-options="options" style = "length : 20px;width:20px">
 					</canvas>
 				</div>
-				<div ng-if ="button1==1">				
-					<canvas id="bar" class="chart chart-bar"
-						chart-data="studata" chart-labels="stulabel" chart-series="series">
-					</canvas>	
+				<div ng-if ="button1==1">					
+					<div id="TopScorerGraph" class = "chartdiv" ng-init="DrawTopScorerGraph(studentData)"></div>	
 				</div>
 			</div>
 		</div>
@@ -129,6 +138,9 @@ hr {
 						</caption>
 					 <tr>
 						<th>
+							<h4> Rank </h4>
+						</th>
+						<th>
 							<h4>Candidate ID</h4>
 						</th>
 						
@@ -141,17 +153,23 @@ hr {
 						<th>
 							<h4> view full score </h4>
 						</th>
+						<th>
+							<h4>Personality Score </h4>
+						</th>
 					 </tr>
 						
 					 <tr ng-repeat="x in student track by $index">
 						<div ng-if = "student[$index].student.GRADE!='Overqualified'">
-							<td class = "col-sm-3">
+							<td>
+								{{rank[$index]}}
+							</td>
+							<td>
 								{{x.student.Candidate_ID}}
 							</td>
-							<td class = "col-sm-3">
+							<td>
 								{{x.student.Name}}
 							</td>
-							<td class = "col col-sm-3">
+							<td>
 								{{studata[$index]}}
 							</td>
 							<td>
@@ -184,6 +202,9 @@ hr {
 									</div>
 							</td>
 						</div>
+						<td>
+							<button type="button" class="btn btn-link" data-toggle="modal" data-target="#mymodal">view</button>				
+						</td>
 					 </tr>
 					</table>
 				</div>
@@ -211,13 +232,13 @@ hr {
 						 </tr>
 						  <tr ng-repeat="x in overqualifiedstudents track by $index">	
 							
-								<td class = "col-sm-3">
+								<td>
 									{{x.Candidate_ID}}
 								</td>
-								<td class = "col-sm-3">
+								<td>
 									{{x.Name}}
 								</td>
-								<td class = "col col-sm-3">
+								<td>
 									{{x.Reason}}
 								</td>
 									<td>
@@ -253,30 +274,45 @@ hr {
 				</div>
 			 </div>
 		</div>	
-	</div>	
+	</div>		
+<!-- Modal -->
+							<div id="mymodal" class="modal fade" role="dialog">
+							  <div class="modal-dialog modal-lg">							
+								<div class="modal-content">
+								  <div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h4 class="modal-title"><h2>Personality Sunburst Chart</h2></h4>
+								  </div>
+								  <div class="modal-body">
+									<div id="sunburstChart"></div>
+								  </div>
+								  <div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								  </div>
+								</div>
 
-   <!-- Modal -->
-
-
-  
-
-  	
+							  </div>
+							</div>			
 </body>
+
 <script>
+ 
 var app = angular.module('myApp',["chart.js"])
 app.controller('Graph', function($scope, $http , $filter) {		
 		  $scope.series = ['Maximum', 'Obtained'];
 		$scope.button1 = 1;
 		$scope.flag = 0;
-	        $scope.overGraph = [];
+	    $scope.overGraph = [];
+	    $scope.rank = [];
 		$scope.overGraphLables = ["EXP_SCORE","COMMUNICATION","RESEARCH_WORK","EDUCATION_SCORE","SPECILIZATION_SCORE","CERTIFICATINO_SCORE","PUBLICATION_SCORE","TEAM_WORK_SCORE","CUSTOMER_FOCUS_SCORE","FOREIGN_LANGUAGE_SCORE"];
 		$scope.studentGraph = [];
 		$scope.overqualifiedGraph = [];
 		$scope.studentGraphLables = ["EXP_SCORE","COMMUNICATION","RESEARCH_WORK","EDUCATION_SCORE","SPECILIZATION_SCORE","CERTIFICATINO_SCORE","PUBLICATION_SCORE","TEAM_WORK_SCORE","CUSTOMER_FOCUS_SCORE","FOREIGN_LANGUAGE_SCORE"];
 		$scope.labels = ["very good in %","good in %","average in %","Overqualified in %","not good in %",];	 
 		$scope.student = [];
+		$scope.studentData = [];
 		$scope.overqualifiedstudents = [];
-		var overqualified = 0,verygood = 0, notgood =0 ,good = 0,average = 0,total = 0, studentNames = [], studentMarks = [] ,overqualifiedstudentsId = [],overqualifiedstudentMarks = [];
+		var  overqualified = 0,verygood = 0, notgood =0 ,good = 0,average = 0,total = 0, studentNames = [], studentMarks = [] ,overqualifiedstudentsId = [],overqualifiedstudentMarks = [];
 		 $http.get('/getdata').then(function(response){
 		     
 			 for(var i = 0 ; i < response.data.length ;i++)
@@ -324,14 +360,27 @@ app.controller('Graph', function($scope, $http , $filter) {
 			
 			  for(var i = 0 ; i < $scope.student.length && i <= 10  ;i++)
 			  {
-					studentNames.push($scope.student[i].student.Name);
+					$scope.studentData.push({"Candidate_ID": $scope.student[i].student.Candidate_ID,"total":$scope.student[i].total});
+					studentNames.push($scope.student[i].student.Candidate_ID);
 					studentMarks.push($scope.student[i].total);
-			 }
+				}
 			  for(var i = 0 ; i < $scope.student.length  ;i++)
 			  {					
 					$scope.studentGraph.push([$scope.student[i].student.values.EXP_SCORE , $scope.student[i].student.values.COMMUNICATION  , $scope.student[i].student.values.RESEARCH_WORK , $scope.student[i].student.values.EDUCATION_SCORE , $scope.student[i].student.values.SPECILIZATION_SCORE , $scope.student[i].student.values.CERTIFICATINO_SCORE , $scope.student[i].student.values.PUBLICATION_SCORE , $scope.student[i].student.values.TEAM_WORK_SCORE , $scope.student[i].student.values.CUSTOMER_FOCUS_SCORE , $scope.student[i].student.values.FOREIGN_LANGUAGE_SCORE,0]);					 
 			  }
-				  studentMarks.push(0);
+				var rank = 1;
+				$scope.rank.push(rank);	  
+				for(var j = 0 ; j < $scope.student.length-1 ;j++)
+				{
+					if($scope.student[j].total== $scope.student[j+1].total)
+						$scope.rank.push(rank);
+					else
+					{
+						rank++;
+						$scope.rank.push(rank);
+					}
+				}
+			 studentMarks.push(0);
 			 $scope.stulabel = studentNames;
 			 $scope.studata = studentMarks;
 			 
@@ -342,9 +391,78 @@ app.controller('Graph', function($scope, $http , $filter) {
 				$scope.overqualifiedGraph.push([$scope.overqualifiedstudents[i].values.EXP_SCORE , $scope.overqualifiedstudents[i].values.COMMUNICATION  , $scope.overqualifiedstudents[i].values.RESEARCH_WORK , $scope.overqualifiedstudents[i].values.EDUCATION_SCORE , $scope.overqualifiedstudents[i].values.SPECILIZATION_SCORE , $scope.overqualifiedstudents[i].values.CERTIFICATINO_SCORE , $scope.overqualifiedstudents[i].values.PUBLICATION_SCORE , $scope.overqualifiedstudents[i].values.TEAM_WORK_SCORE , $scope.overqualifiedstudents[i].values.CUSTOMER_FOCUS_SCORE , $scope.overqualifiedstudents[i].values.FOREIGN_LANGUAGE_SCORE,0]);					 	 
 			 }
 			 if($scope.flag == 0)
-			 $scope.chart();
+			 $scope.chart();				 
+			 $scope.DrawTopScorerGraph($scope.studentData);
 		 });
+		 
+$scope.DrawTopScorerGraph = function(data){
+	var chart = AmCharts.makeChart("TopScorerGraph", {
+		"theme": "light",
+		"type": "serial",
+		"startDuration": 0.2,
+		"dataProvider": data,
+		"valueAxes": [{
+			"position": "left",
+			"title": "Visitors"
+		}],
+		"graphs": [{
+			"balloonText": "[[category]]: <b>[[value]]</b>",
+			"fillColorsField": "color",
+			"fillAlphas": 1,
+			"lineAlpha": 0.1,
+			"type": "column",
+			"valueField": "total"
+		}],
+		"depth3D": 20,
+		"angle": 30,
+		"chartCursor": {
+			"categoryBalloonEnabled": false,
+			"cursorAlpha": 0,
+			"zoomable": false
+		},
+		"categoryField": "Candidate_ID",
+		"categoryAxis": {
+			"gridPosition": "start",
+			"labelRotation": 90
+		},
+		"export": {
+			"enabled": true
+		 }
 
+});
+}
+
+$scope.chart = function(){
+ AmCharts.makeChart( "chartdiv", {
+  "type": "pie",
+  "theme": "light",
+  "dataProvider": [ {
+    "GRADE": "Very good",
+    "value": verygood
+  }, {
+    "GRADE": "Good",
+    "value": good
+  }, {
+    "GRADE": "Average",
+    "value": average
+  }, {
+    "GRADE": "Over Qualified",
+    "value": overqualified
+  }, {
+    "GRADE": "Not Good",
+    "value": notgood
+  }],
+  "valueField": "value",
+  "titleField": "GRADE",
+  "outlineAlpha": 0.4,
+  "depth3D": 15,
+  "angle": 30,
+  "export": {
+    "enabled": true
+  }
+});
+}		 
+		 
 $scope.DrawGraph = function(chartid,data){
 	var chart = AmCharts.makeChart(chartid, {
     "theme": "light",
@@ -426,37 +544,15 @@ $scope.DrawGraph = function(chartid,data){
 	 "fontSize": 7
 });
 }
+
+$.getJSON('/en_v2.json', '', function ( profile ) {
+        $('#profile').append('<pre>' + JSON.stringify(profile, null, 2) + '</pre>');
+        var chart = new PersonalitySunburstChart({'selector': '#sunburstChart'});
+        chart.show(profile, '/profile_photo.jpg');
+        //chart.show(profile);
+      });
 		 
-$scope.chart = function(){
- AmCharts.makeChart( "chartdiv", {
-  "type": "pie",
-  "theme": "light",
-  "dataProvider": [ {
-    "GRADE": "Very good",
-    "value": verygood
-  }, {
-    "GRADE": "Good",
-    "value": good
-  }, {
-    "GRADE": "Average",
-    "value": average
-  }, {
-    "GRADE": "Over Qualified",
-    "value": overqualified
-  }, {
-    "GRADE": "Not Good",
-    "value": notgood
-  }],
-  "valueField": "value",
-  "titleField": "GRADE",
-  "outlineAlpha": 0.4,
-  "depth3D": 15,
-  "angle": 30,
-  "export": {
-    "enabled": true
-  }
-});
-}
+
 });
 
 </script>
