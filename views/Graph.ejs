@@ -28,7 +28,8 @@
  
 <!-- Styles -->
 <style>
-	#profile pre {
+
+	 #profile pre {
         max-height: 400px;
       }
       #textSummary {
@@ -100,7 +101,17 @@ hr {
 
 
 <body ng-app = "myApp" ng-controller = "Graph">
-
+	
+	<div class = "container">
+		<div class = "row">
+			<div class = "col">
+				<img src = "/images/IDB_logo_Dani.png">
+			</div>
+		</div>
+	</div>
+	
+	
+	
 	<div class = "container wrap">	
 		<div class = "row">
 			  <div class = "col col-sm-6">
@@ -364,7 +375,7 @@ app.controller('Graph', function($scope, $http , $filter) {
 			
 			  for(var i = 0 ; i < $scope.student.length && i <= 10  ;i++)
 			  {
-					$scope.studentData.push({"Name": $scope.student[i].student.Name,"total":$scope.student[i].total});
+					$scope.studentData.push({"Candidate_ID": $scope.student[i].student.Candidate_ID,"total":$scope.student[i].total});
 					studentNames.push($scope.student[i].student.Candidate_ID);
 					studentMarks.push($scope.student[i].total);
 				}
@@ -407,7 +418,7 @@ $scope.DrawTopScorerGraph = function(data){
 		"dataProvider": data,
 		"valueAxes": [{
 			"position": "left",
-			"title": "Score"
+			"title": "Visitors"
 		}],
 		"graphs": [{
 			"balloonText": "[[category]]: <b>[[value]]</b>",
@@ -424,7 +435,7 @@ $scope.DrawTopScorerGraph = function(data){
 			"cursorAlpha": 0,
 			"zoomable": false
 		},
-		"categoryField": "Name",
+		"categoryField": "Candidate_ID",
 		"categoryAxis": {
 			"gridPosition": "start",
 			"labelRotation": 90
