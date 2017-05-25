@@ -8,6 +8,46 @@ var http = require('http');
 var ObjectID = require('mongodb').ObjectID;
 //var db = monk('localhost:27017/MyApplicationDatabase');
 var db = monk('mongodb://mohammed_abrar95:BPEJTwZgEYgKwixL@myapplicationdatabase-shard-00-00-gmb8r.mongodb.net:27017,myapplicationdatabase-shard-00-01-gmb8r.mongodb.net:27017,myapplicationdatabase-shard-00-02-gmb8r.mongodb.net:27017/MyDatabase?ssl=true&replicaSet=MyApplicationDatabase-shard-0&authSource=admin');
+
+var ibmdb = require('ibm_db');
+
+
+//DashDB Connection
+var db2 = {
+        db: "BLUDB",
+        hostname: "dashdb-entry-yp-dal09-10.services.dal.bluemix.net",
+        port: 50000,
+        username: "dash7239",
+        password: "S0Zj$N$kc8Xy"
+     };
+
+var connString = "DRIVER={DB2};DATABASE=" + db2.db + ";UID=" + db2.username + ";PWD=" + db2.password + ";HOSTNAME=" + db2.hostname + ";port=" + db2.port;
+
+router.get('/getTweet', function(req, res) {
+    ibmdb.open(connString, function(err, conn) {
+			if (err ) {
+			 res.send("error occurred " + err.message);
+			}
+			else {
+				conn.query("SELECT * " +
+						"from TWITTER_SENTIMENT_COUNT " +
+						"where ORG = 'JPMorgan'", function(err, results) {
+				if ( !err ) { 
+					console.log(results);
+					
+				} else {
+				   res.send("error occurred " + err.message);
+				}
+				conn.close(function(){
+					console.log("Connection Closed");
+					});
+				});
+			}
+		} );
+});
+
+
+
 router.get('/',
   function(req, res) {
     res.render('home');
