@@ -33,7 +33,7 @@ router.get('/getTweet', function(req, res) {
 						"from TWITTER_SENTIMENT_COUNT " +
 						"where ORG = 'JPMorgan'", function(err, results) {
 				if ( !err ) { 
-					console.log(results);
+					res.send(results);
 					
 				} else {
 				   res.send("error occurred " + err.message);
