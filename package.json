@@ -15,15 +15,16 @@
     "ejs": "~2.5.5",
     "express": "~4.14.1",
     "express-session": "^1.15.1",
+    "ibm_db": "^2.0.0",
     "mongodb": "^2.2.24",
     "monk": "^4.0.0",
     "morgan": "~1.7.0",
     "ng-scroll-glue": "^2.0.10",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
+    "personality-sunburst-chart": "^2.0.5",
     "serve-favicon": "~2.3.2",
     "twitter": "^1.7.0",
-     "ibm_db": "^2.0.0",
     "watson-developer-cloud": "^2.25.1"
   }
 }
