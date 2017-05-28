@@ -19,11 +19,14 @@
 		<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
 		
 		 <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
-		<script type="text/javascript" src="https://unpkg.com/personality-sunburst-chart@2.0.4/dist/index.js"></script>
+	
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.14/d3.min.js"></script>
 		<script src="https://d3js.org/d3-color.v1.min.js"></script>
+		<script type="text/javascript" src="/node_modules/personality-sunburst-chart/dist/index.js"></script>
+		
 		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 
+		
 </head>
  
 <!-- Styles -->
@@ -38,6 +41,7 @@
 .chartdiv {
   width: 100%;
   height: 300px;
+  font-weight : bold;
 }
 
 body {
@@ -91,6 +95,18 @@ hr {
 	background-color : #8187a7; 
 	 color: white;
 }
+.sector_leaf_text {
+font-family : "Trebuchet MS", Arial, Helvetica, sans-serif;
+z-index: 1;
+font-size : 16px;
+color : #fff;
+}
+.sector_label_path{
+font-family : "Trebuchet MS", Arial, Helvetica, sans-serif;
+z-index: 1;
+font-size : 18px;
+color : #fff;
+}
 </style>
 
 <script src="https://www.amcharts.com/lib/3/serial.js"></script>
@@ -116,28 +132,12 @@ hr {
 		<div class = "row">
 			  <div class = "col col-sm-6">
 					<h3 class = "title">Candidate Evaluation </h3>
-				<button class = "btn btn-block mybutton" ng-click = "flag = !flag"> chart </button><br/><br/>
-				<div  ng-if ="flag==0"  ng-init="chart()">
 					<div id="chartdiv" class = "chartdiv"></div>
-				</div>
-				<div ng-if ="flag==1">				
-					<canvas id="bar" class="chart chart-bar"
-					  chart-data="data" chart-labels="labels" chart-series="series">
-					</canvas>	
-				</div>
 			  </div>		 					
 			
 			<div class = "col col-sm-6">	
 				<h3 class = "title"> Top Scorer </h3>
-				<button class = "btn btn-block mybutton" ng-click = "button1=!button1"> chart </button><br/><br/>
-				<div ng-if ="button1==0">
-					<canvas id="pie" class="chart chart-pie"
-						chart-data="studata" chart-labels="stulabel" chart-options="options" style = "length : 20px;width:20px">
-					</canvas>
-				</div>
-				<div ng-if ="button1==1">					
-					<div id="TopScorerGraph" class = "chartdiv" ng-init="DrawTopScorerGraph(studentData)"></div>	
-				</div>
+				<div id="TopScorerGraph" class = "chartdiv" ng-init="DrawTopScorerGraph(studentData)"></div>				
 			</div>
 		</div>
 		<hr>
@@ -195,12 +195,12 @@ hr {
 											<div class="modal-content">
 												<div class="modal-header">
 												  <button type="button" class="close" data-dismiss="modal">&times;</button>
-												  <h4 class="modal-title">CandidateID: {{student[$index].student.Candidate_ID}}<br/>
+												  <h4 class="modal-title">Candidate Name: {{student[$index].student.Name}}<br/>
 													Candidate ID:	{{student[$index].student.Candidate_ID}}</h4>
 												</div>
 												
 												<div class="modal-body container-fluid mymodal">
-														
+													
 													<div id={{chartid='chart_'+student[$index].student.Candidate_ID}} class = "chartdiv" >
 														{{DrawGraph(chartid,studentGraph[$index])}}															
 													</div>
@@ -218,7 +218,7 @@ hr {
 							</td>
 						</div>
 						<td>
-							<button type="button" class="btn btn-link" data-toggle="modal" data-target="#mymodal" ng-click = "PersonalityInsights(student[$index].student.Candidate_ID)">view</button>				
+							<button type="button" class="btn btn-link" data-toggle="modal" data-target="#mymodal" ng-click = "PersonalityInsights(student[$index].student.Candidate_ID,student[$index].student.Name)">view</button>				
 						</td>
 					 </tr>
 					</table>
@@ -264,7 +264,7 @@ hr {
 												<div class="modal-content">
 													<div class="modal-header">
 													  <button type="button" class="close" data-dismiss="modal">&times;</button>
-													  <h4 class="modal-title">CandidateID: {{overqualifiedstudents[$index].Candidate_ID}}<br/>
+													  <h4 class="modal-title">Candidate Name: {{overqualifiedstudents[$index].Name}}<br/>
 														Candidate_ID:	{{overqualifiedstudents[$index].Candidate_ID}}</h4>
 													</div>
 													
@@ -291,14 +291,19 @@ hr {
 		</div>	
 	</div>		
 <!-- Modal -->
-							<div id="mymodal" class="modal fade my" role="dialog">
+							<div id="mymodal" class="modal fade" role="dialog">
 							  <div class="modal-dialog modal-lg">							
 								<div class="modal-content">
 								  <div class="modal-header">
 									<button type="button" class="close" data-dismiss="modal">&times;</button>
-									<h4 class="modal-title"><h2>Personality Sunburst Chart</h2></h4>
+									
+									 <h4 class="modal-title">Candidate Name: {{name}}<br/>
+									Candidate_ID:	{{id}}</h4>
+													
+									
 								  </div>
-								  <div class="modal-body">
+								  <div class="modal-body ">
+									
 									<div id="sunburstChart"></div>
 								  </div>
 								  <div class="modal-footer">
@@ -315,9 +320,7 @@ hr {
 var app = angular.module('myApp',["chart.js"])
 app.controller('Graph', function($scope, $http , $filter) {		
 		  $scope.series = ['Maximum', 'Obtained'];
-		$scope.button1 = 1;
-		$scope.flag = 0;
-	    $scope.overGraph = [];
+		$scope.overGraph = [];
 	    $scope.rank = [];
 		$scope.overGraphLables = ["EXP_SCORE","COMMUNICATION","RESEARCH_WORK","EDUCATION_SCORE","SPECILIZATION_SCORE","CERTIFICATINO_SCORE","PUBLICATION_SCORE","TEAM_WORK_SCORE","CUSTOMER_FOCUS_SCORE","FOREIGN_LANGUAGE_SCORE"];
 		$scope.studentGraph = [];
@@ -405,7 +408,6 @@ app.controller('Graph', function($scope, $http , $filter) {
 			 {
 				$scope.overqualifiedGraph.push([$scope.overqualifiedstudents[i].values.EXP_SCORE , $scope.overqualifiedstudents[i].values.COMMUNICATION  , $scope.overqualifiedstudents[i].values.RESEARCH_WORK , $scope.overqualifiedstudents[i].values.EDUCATION_SCORE , $scope.overqualifiedstudents[i].values.SPECILIZATION_SCORE , $scope.overqualifiedstudents[i].values.CERTIFICATINO_SCORE , $scope.overqualifiedstudents[i].values.PUBLICATION_SCORE , $scope.overqualifiedstudents[i].values.TEAM_WORK_SCORE , $scope.overqualifiedstudents[i].values.CUSTOMER_FOCUS_SCORE , $scope.overqualifiedstudents[i].values.FOREIGN_LANGUAGE_SCORE,0]);					 	 
 			 }
-			 if($scope.flag == 0)
 			 $scope.chart();				 
 			 $scope.DrawTopScorerGraph($scope.studentData);
 		 });
@@ -433,12 +435,12 @@ $scope.DrawTopScorerGraph = function(data){
 		"chartCursor": {
 			"categoryBalloonEnabled": false,
 			"cursorAlpha": 0,
-			"zoomable": false
+			"zoomable": true
 		},
 		"categoryField": "Name",
 		"categoryAxis": {
 			"gridPosition": "start",
-			"labelRotation": 90
+			"labelRotation": 40
 		},
 		"export": {
 			"enabled": true
@@ -491,7 +493,7 @@ $scope.DrawGraph = function(chartid,data){
         "Max": 10 ,
         "Obtained": data[1]
     }, {
-        "subject": "RESEARCH_WORK",
+        "subject": "RESEARCH",
         "Max": 10,
         "Obtained": data[2]
     }, {
@@ -511,15 +513,15 @@ $scope.DrawGraph = function(chartid,data){
         "Max": 4,
         "Obtained": data[6]
     }, {
-        "subject": "TEAM_WORK",
+        "subject": "TEAM WORK",
         "Max": 4,
         "Obtained": data[7]
     }, {
-        "subject": "CUSTOMER_FOCUS",
+        "subject": "CUSTOMER FOCUS",
         "Max": 8,
         "Obtained": data[8]
     }, {
-        "subject": "FOREIGN_LANGUAGE",
+        "subject": "LANGUAGE",
         "Max": 10,
         "Obtained": data[9]
     }],
@@ -528,7 +530,7 @@ $scope.DrawGraph = function(chartid,data){
         "unit": "%",
         "position": "left",
         "title": "Scores",
-		 "fontSize": 10
+		 "fontSize": 11
     }],
     "startDuration": 0.5,
     "graphs": [{
@@ -551,18 +553,23 @@ $scope.DrawGraph = function(chartid,data){
     "categoryField": "subject",
     "categoryAxis": {
         "gridPosition": "start",
+		"labelRotation": 40
 
     },
     "export": {
     	"enabled": false
      },
-	 "fontSize": 7
+	 "fontSize": 11
+	
 });
 }
-$scope.PersonalityInsights = function(id){
-console.log(id);
+$scope.PersonalityInsights = function(id,name){
+
+$scope.name = name ;
+$scope.id = id;
 $.getJSON('/PersonalityInsights/'+id+'.json', '', function ( profile ) {
-        var chart = new PersonalitySunburstChart({'selector': '#sunburstChart'});
+        
+		var chart = new PersonalitySunburstChart({'selector': '#sunburstChart' ,'version': 'v2'});
         chart.show(profile, '/images/'+id+'.jpg');
       });
 }
